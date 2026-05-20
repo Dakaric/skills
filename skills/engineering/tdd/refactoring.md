@@ -1,10 +1,10 @@
-# Refactor Candidates
+# Refactor-Kandidaten
 
-After TDD cycle, look for:
+Nach dem TDD-Zyklus schau nach:
 
-- **Duplication** → Extract function/class
-- **Long methods** → Break into private helpers (keep tests on public interface)
-- **Shallow modules** → Combine or deepen
-- **Feature envy** → Move logic to where data lives
-- **Primitive obsession** → Introduce value objects
-- **Existing code** the new code reveals as problematic
+- **Duplikation** → Function / Class extrahieren
+- **Lange Methoden** → in Private Helpers aufbrechen (Tests bleiben am Public Interface)
+- **Shallow Modules** → kombinieren oder deepenen
+- **Feature Envy** → Logic dahin verschieben, wo die Daten leben
+- **Primitive Obsession** → Value Objects einführen
+- **Bestehender Code**, den der neue Code als problematisch offenlegt

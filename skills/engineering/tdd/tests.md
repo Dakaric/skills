@@ -1,12 +1,12 @@
-# Good and Bad Tests
+# Gute und schlechte Tests
 
-## Good Tests
+## Gute Tests
 
-**Integration-style**: Test through real interfaces, not mocks of internal parts.
+**Integration-style**: durch echte Interfaces testen, nicht durch Mocks interner Teile.
 
 ```typescript
-// GOOD: Tests observable behavior
-test("user can checkout with valid cart", async () => {
+// GUT: Testet beobachtbares Behavior
+test("User kann mit validem Cart einchecken", async () => {
   const cart = createCart();
   cart.add(product);
   const result = await checkout(cart, paymentMethod);
@@ -14,46 +14,46 @@ test("user can checkout with valid cart", async () => {
 });
 ```
 
-Characteristics:
+Eigenschaften:
 
-- Tests behavior users/callers care about
-- Uses public API only
-- Survives internal refactors
-- Describes WHAT, not HOW
-- One logical assertion per test
+- Testen Behavior, das Users / Callers interessiert
+- Nutzen nur Public API
+- Überleben interne Refactors
+- Beschreiben WAS, nicht WIE
+- Eine logische Assertion pro Test
 
-## Bad Tests
+## Schlechte Tests
 
-**Implementation-detail tests**: Coupled to internal structure.
+**Implementation-Detail-Tests**: an interne Struktur gekoppelt.
 
 ```typescript
-// BAD: Tests implementation details
-test("checkout calls paymentService.process", async () => {
+// SCHLECHT: Testet Implementierungsdetails
+test("checkout ruft paymentService.process auf", async () => {
   const mockPayment = jest.mock(paymentService);
   await checkout(cart, payment);
   expect(mockPayment.process).toHaveBeenCalledWith(cart.total);
 });
 ```
 
-Red flags:
+Red Flags:
 
-- Mocking internal collaborators
-- Testing private methods
-- Asserting on call counts/order
-- Test breaks when refactoring without behavior change
-- Test name describes HOW not WHAT
-- Verifying through external means instead of interface
+- Interne Collaborators mocken
+- Private Methods testen
+- Auf Call Counts / Order asserten
+- Test bricht bei Refactor ohne Behavior-Change
+- Test-Name beschreibt WIE, nicht WAS
+- Über externe Wege verifizieren statt durchs Interface
 
 ```typescript
-// BAD: Bypasses interface to verify
-test("createUser saves to database", async () => {
+// SCHLECHT: Umgeht das Interface zur Verifikation
+test("createUser speichert in der Datenbank", async () => {
   await createUser({ name: "Alice" });
   const row = await db.query("SELECT * FROM users WHERE name = ?", ["Alice"]);
   expect(row).toBeDefined();
 });
 
-// GOOD: Verifies through interface
-test("createUser makes user retrievable", async () => {
+// GUT: Verifiziert durchs Interface
+test("createUser macht User abrufbar", async () => {
   const user = await createUser({ name: "Alice" });
   const retrieved = await getUser(user.id);
   expect(retrieved.name).toBe("Alice");

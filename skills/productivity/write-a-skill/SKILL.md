@@ -1,36 +1,36 @@
 ---
 name: write-a-skill
-description: Create new agent skills with proper structure, progressive disclosure, and bundled resources. Use when user wants to create, write, or build a new skill.
+description: Neue Agent-Skills mit richtiger Struktur, Progressive Disclosure und gebündelten Ressourcen erstellen. Nutze, wenn der User einen neuen Skill erstellen, schreiben oder bauen will.
 ---
 
 # Writing Skills
 
-## Process
+## Prozess
 
-1. **Gather requirements** - ask user about:
-   - What task/domain does the skill cover?
-   - What specific use cases should it handle?
-   - Does it need executable scripts or just instructions?
-   - Any reference materials to include?
+1. **Requirements sammeln** - den User fragen zu:
+   - Welche Aufgabe / Domain deckt der Skill ab?
+   - Welche spezifischen Use Cases soll er handlen?
+   - Braucht er ausführbare Scripts oder nur Instructions?
+   - Etwaige Referenz-Materialien zum Einbinden?
 
-2. **Draft the skill** - create:
-   - SKILL.md with concise instructions
-   - Additional reference files if content exceeds 500 lines
-   - Utility scripts if deterministic operations needed
+2. **Den Skill draften** - anlegen:
+   - SKILL.md mit knappen Instructions
+   - Zusätzliche Referenz-Files, falls Content 500 Zeilen übersteigt
+   - Utility-Scripts, falls deterministische Operationen nötig
 
-3. **Review with user** - present draft and ask:
-   - Does this cover your use cases?
-   - Anything missing or unclear?
-   - Should any section be more/less detailed?
+3. **Mit dem User reviewen** - Draft präsentieren und fragen:
+   - Deckt das deine Use Cases ab?
+   - Fehlt was oder ist unklar?
+   - Sollte eine Section detaillierter / weniger detailliert sein?
 
-## Skill Structure
+## Skill-Struktur
 
 ```
 skill-name/
-├── SKILL.md           # Main instructions (required)
-├── REFERENCE.md       # Detailed docs (if needed)
-├── EXAMPLES.md        # Usage examples (if needed)
-└── scripts/           # Utility scripts (if needed)
+├── SKILL.md           # Haupt-Instructions (pflicht)
+├── REFERENCE.md       # Detailierte Docs (falls nötig)
+├── EXAMPLES.md        # Usage-Beispiele (falls nötig)
+└── scripts/           # Utility-Scripts (falls nötig)
     └── helper.js
 ```
 
@@ -39,79 +39,79 @@ skill-name/
 ```md
 ---
 name: skill-name
-description: Brief description of capability. Use when [specific triggers].
+description: Knappe Beschreibung der Capability. Nutze, wenn [spezifische Trigger].
 ---
 
 # Skill Name
 
-## Quick start
+## Quick Start
 
-[Minimal working example]
+[Minimales lauffähiges Beispiel]
 
 ## Workflows
 
-[Step-by-step processes with checklists for complex tasks]
+[Schritt-für-Schritt-Prozesse mit Checklisten für komplexere Aufgaben]
 
-## Advanced features
+## Advanced Features
 
-[Link to separate files: See [REFERENCE.md](REFERENCE.md)]
+[Link auf separate Files: Siehe [REFERENCE.md](REFERENCE.md)]
 ```
 
-## Description Requirements
+## Anforderungen an die Description
 
-The description is **the only thing your agent sees** when deciding which skill to load. It's surfaced in the system prompt alongside all other installed skills. Your agent reads these descriptions and picks the relevant skill based on the user's request.
+Die Description ist **das Einzige, was dein Agent sieht**, wenn er entscheidet, welchen Skill er lädt. Sie taucht im System Prompt neben allen anderen installierten Skills auf. Dein Agent liest diese Descriptions und wählt den relevanten Skill basierend auf der Anfrage des Users.
 
-**Goal**: Give your agent just enough info to know:
+**Ziel**: Gib deinem Agent gerade genug Info, um zu wissen:
 
-1. What capability this skill provides
-2. When/why to trigger it (specific keywords, contexts, file types)
+1. Welche Capability dieser Skill bietet
+2. Wann / warum er ihn triggern soll (spezifische Keywords, Kontexte, File-Typen)
 
 **Format**:
 
-- Max 1024 chars
-- Write in third person
-- First sentence: what it does
-- Second sentence: "Use when [specific triggers]"
+- Max 1024 Zeichen
+- Dritter Person schreiben
+- Erster Satz: was er tut
+- Zweiter Satz: "Nutze, wenn [spezifische Trigger]"
 
-**Good example**:
-
-```
-Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when user mentions PDFs, forms, or document extraction.
-```
-
-**Bad example**:
+**Gutes Beispiel**:
 
 ```
-Helps with documents.
+Extrahiert Text und Tabellen aus PDF-Dateien, füllt Formulare aus, merged Dokumente. Nutze, wenn mit PDF-Dateien gearbeitet wird oder der User PDFs, Formulare oder Document-Extraction erwähnt.
 ```
 
-The bad example gives your agent no way to distinguish this from other document skills.
+**Schlechtes Beispiel**:
 
-## When to Add Scripts
+```
+Hilft mit Dokumenten.
+```
 
-Add utility scripts when:
+Das schlechte Beispiel gibt deinem Agent keine Möglichkeit, das von anderen Document-Skills zu unterscheiden.
 
-- Operation is deterministic (validation, formatting)
-- Same code would be generated repeatedly
-- Errors need explicit handling
+## Wann Scripts hinzufügen
 
-Scripts save tokens and improve reliability vs generated code.
+Utility-Scripts hinzufügen, wenn:
 
-## When to Split Files
+- Die Operation deterministisch ist (Validation, Formatting)
+- Der gleiche Code wiederholt generiert werden würde
+- Errors explizites Handling brauchen
 
-Split into separate files when:
+Scripts sparen Tokens und verbessern die Zuverlässigkeit gegenüber generiertem Code.
 
-- SKILL.md exceeds 100 lines
-- Content has distinct domains (finance vs sales schemas)
-- Advanced features are rarely needed
+## Wann Files splitten
 
-## Review Checklist
+In separate Files splitten, wenn:
 
-After drafting, verify:
+- SKILL.md 100 Zeilen übersteigt
+- Content distincte Domains hat (Finance- vs Sales-Schemas)
+- Advanced Features selten gebraucht werden
 
-- [ ] Description includes triggers ("Use when...")
-- [ ] SKILL.md under 100 lines
-- [ ] No time-sensitive info
-- [ ] Consistent terminology
-- [ ] Concrete examples included
-- [ ] References one level deep
+## Review-Checkliste
+
+Nach dem Draften verifizieren:
+
+- [ ] Description enthält Trigger ("Nutze, wenn...")
+- [ ] SKILL.md unter 100 Zeilen
+- [ ] Keine zeit-sensitiven Infos
+- [ ] Konsistente Terminologie
+- [ ] Konkrete Beispiele enthalten
+- [ ] References eine Ebene tief

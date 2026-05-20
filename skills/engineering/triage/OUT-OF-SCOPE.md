@@ -1,11 +1,11 @@
 # Out-of-Scope Knowledge Base
 
-The `.out-of-scope/` directory in a repo stores persistent records of rejected feature requests. It serves two purposes:
+Das `.out-of-scope/` Verzeichnis in einem Repo speichert persistente Records abgelehnter Feature Requests. Es dient zwei Zwecken:
 
-1. **Institutional memory** — why a feature was rejected, so the reasoning isn't lost when the issue is closed
-2. **Deduplication** — when a new issue comes in that matches a prior rejection, the skill can surface the previous decision instead of re-litigating it
+1. **Institutional Memory** - warum ein Feature abgelehnt wurde, damit die Begründung nicht verloren geht, wenn das Issue geschlossen wird
+2. **Deduplizierung** - wenn ein neues Issue reinkommt, das einer früheren Ablehnung entspricht, kann der Skill die frühere Entscheidung rausbringen, statt sie neu zu verhandeln
 
-## Directory structure
+## Directory-Struktur
 
 ```
 .out-of-scope/
@@ -14,34 +14,34 @@ The `.out-of-scope/` directory in a repo stores persistent records of rejected f
 └── graphql-api.md
 ```
 
-One file per **concept**, not per issue. Multiple issues requesting the same thing are grouped under one file.
+Ein File pro **Konzept**, nicht pro Issue. Mehrere Issues, die das Gleiche fordern, werden unter einem File gruppiert.
 
-## File format
+## File-Format
 
-The file should be written in a relaxed, readable style — more like a short design document than a database entry. Use paragraphs, code samples, and examples to make the reasoning clear and useful to someone encountering it for the first time.
+Das File sollte in einem entspannten, lesbaren Stil geschrieben sein - mehr wie ein kurzes Design-Dokument als ein Datenbankeintrag. Nutz Absätze, Code-Beispiele und Beispiele, um die Begründung klar und nützlich für jemanden zu machen, der ihr zum ersten Mal begegnet.
 
 ```markdown
 # Dark Mode
 
-This project does not support dark mode or user-facing theming.
+Dieses Projekt unterstützt keinen Dark Mode oder user-facing Theming.
 
-## Why this is out of scope
+## Warum das out of scope ist
 
-The rendering pipeline assumes a single color palette defined in
-`ThemeConfig`. Supporting multiple themes would require:
+Die Rendering-Pipeline geht von einer einzigen Color-Palette aus, definiert in
+`ThemeConfig`. Mehrere Themes zu unterstützen würde Folgendes erfordern:
 
-- A theme context provider wrapping the entire component tree
-- Per-component theme-aware style resolution
-- A persistence layer for user theme preferences
+- Einen Theme-Context-Provider, der den gesamten Component-Tree umschließt
+- Per-Component theme-aware Style-Resolution
+- Eine Persistenz-Schicht für User-Theme-Präferenzen
 
-This is a significant architectural change that doesn't align with the
-project's focus on content authoring. Theming is a concern for downstream
-consumers who embed or redistribute the output.
+Das ist eine signifikante Architektur-Änderung, die nicht zum Fokus des
+Projekts auf Content-Authoring passt. Theming ist ein Anliegen für
+Downstream-Consumer, die den Output einbetten oder weitergeben.
 
 ```ts
-// The current ThemeConfig interface is not designed for runtime switching:
+// Das aktuelle ThemeConfig-Interface ist nicht für Runtime-Switching designt:
 interface ThemeConfig {
-  colors: ColorPalette; // single palette, resolved at build time
+  colors: ColorPalette; // einzelne Palette, zur Build-Zeit aufgelöst
   fonts: FontStack;
 }
 ```
@@ -53,49 +53,49 @@ interface ThemeConfig {
 - #134 — "Dark theme option"
 ```
 
-### Naming the file
+### File benennen
 
-Use a short, descriptive kebab-case name for the concept: `dark-mode.md`, `plugin-system.md`, `graphql-api.md`. The name should be recognizable enough that someone browsing the directory understands what was rejected without opening the file.
+Nutz einen kurzen, beschreibenden Kebab-Case-Namen für das Konzept: `dark-mode.md`, `plugin-system.md`, `graphql-api.md`. Der Name sollte erkennbar genug sein, dass jemand, der das Verzeichnis browst, versteht, was abgelehnt wurde, ohne das File zu öffnen.
 
-### Writing the reason
+### Den Reason schreiben
 
-The reason should be substantive — not "we don't want this" but why. Good reasons reference:
+Der Reason sollte substanziell sein - nicht "we don't want this", sondern warum. Gute Reasons referenzieren:
 
-- Project scope or philosophy ("This project focuses on X; theming is a downstream concern")
-- Technical constraints ("Supporting this would require Y, which conflicts with our Z architecture")
-- Strategic decisions ("We chose to use A instead of B because...")
+- Projekt-Scope oder -Philosophie ("Dieses Projekt fokussiert sich auf X; Theming ist ein Downstream-Anliegen")
+- Technische Constraints ("Das zu unterstützen würde Y erfordern, was mit unserer Z-Architektur kollidiert")
+- Strategische Entscheidungen ("Wir haben uns für A statt B entschieden, weil...")
 
-The reason should be durable. Avoid referencing temporary circumstances ("we're too busy right now") — those aren't real rejections, they're deferrals.
+Der Reason sollte durable sein. Vermeid Referenzen auf temporäre Umstände ("wir sind grad zu busy") - das sind keine echten Rejections, das sind Deferrals.
 
-## When to check `.out-of-scope/`
+## Wann `.out-of-scope/` checken
 
-During triage (Step 1: Gather context), read all files in `.out-of-scope/`. When evaluating a new issue:
+Während der Triage (Step 1: Kontext sammeln), alle Files in `.out-of-scope/` lesen. Beim Bewerten eines neuen Issues:
 
-- Check if the request matches an existing out-of-scope concept
-- Matching is by concept similarity, not keyword — "night theme" matches `dark-mode.md`
-- If there's a match, surface it to the maintainer: "This is similar to `.out-of-scope/dark-mode.md` — we rejected this before because [reason]. Do you still feel the same way?"
+- Prüfen, ob der Request einem bestehenden Out-of-Scope-Konzept entspricht
+- Matching geht nach Konzept-Ähnlichkeit, nicht Keyword - "night theme" matcht `dark-mode.md`
+- Wenn es einen Match gibt, dem Maintainer zeigen: "Das ist ähnlich zu `.out-of-scope/dark-mode.md` — wir haben das früher abgelehnt, weil [Reason]. Siehst du das immer noch genauso?"
 
-The maintainer may:
+Der Maintainer kann:
 
-- **Confirm** — the new issue gets added to the existing file's "Prior requests" list, then closed
-- **Reconsider** — the out-of-scope file gets deleted or updated, and the issue proceeds through normal triage
-- **Disagree** — the issues are related but distinct, proceed with normal triage
+- **Bestätigen** - das neue Issue wird zur "Prior requests" Liste des bestehenden Files hinzugefügt und dann geschlossen
+- **Reconsidern** - das Out-of-Scope-File wird gelöscht oder aktualisiert, und das Issue läuft durch normale Triage
+- **Disagreen** - die Issues sind verwandt, aber distinct, weiter mit normaler Triage
 
-## When to write to `.out-of-scope/`
+## Wann nach `.out-of-scope/` schreiben
 
-Only when an **enhancement** (not a bug) is rejected as `wontfix`. The flow:
+Nur wenn ein **Enhancement** (kein Bug) als `wontfix` abgelehnt wird. Der Flow:
 
-1. Maintainer decides a feature request is out of scope
-2. Check if a matching `.out-of-scope/` file already exists
-3. If yes: append the new issue to the "Prior requests" list
-4. If no: create a new file with the concept name, decision, reason, and first prior request
-5. Post a comment on the issue explaining the decision and mentioning the `.out-of-scope/` file
-6. Close the issue with the `wontfix` label
+1. Maintainer entscheidet, dass ein Feature-Request out of scope ist
+2. Prüfen, ob ein matchendes `.out-of-scope/` File schon existiert
+3. Wenn ja: das neue Issue an die "Prior requests" Liste anhängen
+4. Wenn nein: ein neues File mit Konzeptname, Entscheidung, Reason und erstem Prior Request erstellen
+5. Einen Comment am Issue posten, der die Entscheidung erklärt und das `.out-of-scope/` File erwähnt
+6. Das Issue mit dem `wontfix` Label schließen
 
-## Updating or removing out-of-scope files
+## Out-of-Scope-Files updaten oder entfernen
 
-If the maintainer changes their mind about a previously rejected concept:
+Wenn der Maintainer es sich bei einem vorher abgelehnten Konzept anders überlegt:
 
-- Delete the `.out-of-scope/` file
-- The skill does not need to reopen old issues — they're historical records
-- The new issue that triggered the reconsideration proceeds through normal triage
+- Das `.out-of-scope/` File löschen
+- Der Skill muss keine alten Issues wieder öffnen - die sind historische Records
+- Das neue Issue, das das Reconsidern ausgelöst hat, läuft durch normale Triage

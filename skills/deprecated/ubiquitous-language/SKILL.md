@@ -1,93 +1,93 @@
 ---
 name: ubiquitous-language
-description: Extract a DDD-style ubiquitous language glossary from the current conversation, flagging ambiguities and proposing canonical terms. Saves to UBIQUITOUS_LANGUAGE.md. Use when user wants to define domain terms, build a glossary, harden terminology, create a ubiquitous language, or mentions "domain model" or "DDD".
+description: Extrahier ein DDD-style Ubiquitous-Language-Glossar aus der aktuellen Konversation, flagge Mehrdeutigkeiten und schlag kanonische Begriffe vor. Speichert in UBIQUITOUS_LANGUAGE.md. Nutze, wenn der User Domain-Begriffe definieren, ein Glossar bauen, Terminologie härten, eine Ubiquitous Language anlegen will oder "Domain-Modell" oder "DDD" erwähnt.
 disable-model-invocation: true
 ---
 
 # Ubiquitous Language
 
-Extract and formalize domain terminology from the current conversation into a consistent glossary, saved to a local file.
+Extrahier und formalisier Domain-Terminologie aus der aktuellen Konversation in ein konsistentes Glossar, gespeichert in einer lokalen Datei.
 
-## Process
+## Prozess
 
-1. **Scan the conversation** for domain-relevant nouns, verbs, and concepts
-2. **Identify problems**:
-   - Same word used for different concepts (ambiguity)
-   - Different words used for the same concept (synonyms)
-   - Vague or overloaded terms
-3. **Propose a canonical glossary** with opinionated term choices
-4. **Write to `UBIQUITOUS_LANGUAGE.md`** in the working directory using the format below
-5. **Output a summary** inline in the conversation
+1. **Konversation scannen** nach domain-relevanten Nomen, Verben und Konzepten
+2. **Probleme identifizieren**:
+   - Gleiches Wort für verschiedene Konzepte (Ambiguität)
+   - Verschiedene Wörter für das gleiche Konzept (Synonyme)
+   - Vage oder überladene Begriffe
+3. **Ein kanonisches Glossar vorschlagen** mit meinungsstarken Begriffswahlen
+4. **Nach `UBIQUITOUS_LANGUAGE.md`** im Working Directory schreiben, im Format unten
+5. **Eine Summary** inline in der Konversation ausgeben
 
-## Output Format
+## Output-Format
 
-Write a `UBIQUITOUS_LANGUAGE.md` file with this structure:
+Schreib ein `UBIQUITOUS_LANGUAGE.md` File mit dieser Struktur:
 
 ```md
 # Ubiquitous Language
 
-## Order lifecycle
+## Order Lifecycle
 
-| Term        | Definition                                              | Aliases to avoid      |
-| ----------- | ------------------------------------------------------- | --------------------- |
-| **Order**   | A customer's request to purchase one or more items      | Purchase, transaction |
-| **Invoice** | A request for payment sent to a customer after delivery | Bill, payment request |
+| Term        | Definition                                                       | Zu vermeidende Aliasse |
+| ----------- | ---------------------------------------------------------------- | ---------------------- |
+| **Order**   | Eine Customer-Anfrage, ein oder mehrere Items zu kaufen          | Purchase, transaction  |
+| **Invoice** | Eine Zahlungsaufforderung, nach Lieferung an einen Customer gesendet | Bill, payment request  |
 
 ## People
 
-| Term         | Definition                                  | Aliases to avoid       |
-| ------------ | ------------------------------------------- | ---------------------- |
-| **Customer** | A person or organization that places orders | Client, buyer, account |
-| **User**     | An authentication identity in the system    | Login, account         |
+| Term         | Definition                                          | Zu vermeidende Aliasse |
+| ------------ | --------------------------------------------------- | ---------------------- |
+| **Customer** | Eine Person oder Organisation, die Orders aufgibt   | Client, buyer, account |
+| **User**     | Eine Authentifizierungs-Identität im System         | Login, account         |
 
 ## Relationships
 
-- An **Invoice** belongs to exactly one **Customer**
-- An **Order** produces one or more **Invoices**
+- Ein **Invoice** gehört zu genau einem **Customer**
+- Ein **Order** erzeugt ein oder mehrere **Invoices**
 
-## Example dialogue
+## Example Dialogue
 
-> **Dev:** "When a **Customer** places an **Order**, do we create the **Invoice** immediately?"
-> **Domain expert:** "No — an **Invoice** is only generated once a **Fulfillment** is confirmed. A single **Order** can produce multiple **Invoices** if items ship in separate **Shipments**."
-> **Dev:** "So if a **Shipment** is cancelled before dispatch, no **Invoice** exists for it?"
-> **Domain expert:** "Exactly. The **Invoice** lifecycle is tied to the **Fulfillment**, not the **Order**."
+> **Dev:** "Wenn ein **Customer** einen **Order** aufgibt, erstellen wir den **Invoice** sofort?"
+> **Domain Expert:** "Nein — ein **Invoice** wird erst generiert, sobald ein **Fulfillment** bestätigt ist. Ein einzelner **Order** kann mehrere **Invoices** produzieren, wenn Items in separaten **Shipments** verschickt werden."
+> **Dev:** "Wenn also ein **Shipment** vor dem Versand gecancelt wird, existiert kein **Invoice** dafür?"
+> **Domain Expert:** "Genau. Der **Invoice**-Lifecycle ist an das **Fulfillment** gebunden, nicht an den **Order**."
 
-## Flagged ambiguities
+## Flagged Ambiguities
 
-- "account" was used to mean both **Customer** and **User** — these are distinct concepts: a **Customer** places orders, while a **User** is an authentication identity that may or may not represent a **Customer**.
+- "account" wurde sowohl für **Customer** als auch **User** verwendet — das sind unterschiedliche Konzepte: ein **Customer** gibt Orders auf, während ein **User** eine Authentifizierungs-Identität ist, die einen **Customer** repräsentieren kann, aber nicht muss.
 ```
 
-## Rules
+## Regeln
 
-- **Be opinionated.** When multiple words exist for the same concept, pick the best one and list the others as aliases to avoid.
-- **Flag conflicts explicitly.** If a term is used ambiguously in the conversation, call it out in the "Flagged ambiguities" section with a clear recommendation.
-- **Only include terms relevant for domain experts.** Skip the names of modules or classes unless they have meaning in the domain language.
-- **Keep definitions tight.** One sentence max. Define what it IS, not what it does.
-- **Show relationships.** Use bold term names and express cardinality where obvious.
-- **Only include domain terms.** Skip generic programming concepts (array, function, endpoint) unless they have domain-specific meaning.
-- **Group terms into multiple tables** when natural clusters emerge (e.g. by subdomain, lifecycle, or actor). Each group gets its own heading and table. If all terms belong to a single cohesive domain, one table is fine — don't force groupings.
-- **Write an example dialogue.** A short conversation (3-5 exchanges) between a dev and a domain expert that demonstrates how the terms interact naturally. The dialogue should clarify boundaries between related concepts and show terms being used precisely.
+- **Sei meinungsstark.** Wenn mehrere Wörter für das gleiche Konzept existieren, wähl das beste und liste die anderen als zu vermeidende Aliasse.
+- **Konflikte explizit flaggen.** Wenn ein Begriff mehrdeutig in der Konversation genutzt wird, ruf's in der "Flagged ambiguities" Section aus mit klarer Empfehlung.
+- **Nur Begriffe aufnehmen, die für Domain-Experten relevant sind.** Skip die Namen von Modulen oder Klassen, außer sie haben Bedeutung in der Domain-Sprache.
+- **Definitionen straff halten.** Maximal ein Satz. Definier, was es IST, nicht was es tut.
+- **Beziehungen zeigen.** Begriffsnamen fett, Kardinalität ausdrücken, wo offensichtlich.
+- **Nur Domain-Begriffe.** Skip generische Programmierkonzepte (Array, Function, Endpoint), außer sie haben domain-spezifische Bedeutung.
+- **Begriffe in mehrere Tabellen gruppieren**, wenn natürliche Cluster entstehen (z.B. nach Subdomain, Lifecycle oder Actor). Jede Gruppe bekommt eigene Heading und Tabelle. Wenn alle Begriffe zu einer kohärenten Domain gehören, ist eine Tabelle okay - erzwing keine Gruppierungen.
+- **Beispiel-Dialog schreiben.** Eine kurze Konversation (3-5 Wechsel) zwischen einem Dev und einem Domain-Experten, die zeigt, wie die Begriffe natürlich interagieren. Der Dialog sollte Grenzen zwischen verwandten Konzepten klären und zeigen, wie Begriffe präzise genutzt werden.
 
 <example>
 
-## Example dialogue
+## Example Dialogue
 
-> **Dev:** "How do I test the **sync service** without Docker?"
+> **Dev:** "Wie teste ich den **sync service** ohne Docker?"
 
-> **Domain expert:** "Provide the **filesystem layer** instead of the **Docker layer**. It implements the same **Sandbox service** interface but uses a local directory as the **sandbox**."
+> **Domain Expert:** "Stell den **filesystem layer** statt des **Docker layer** bereit. Er implementiert das gleiche **Sandbox service**-Interface, nutzt aber ein lokales Verzeichnis als **sandbox**."
 
-> **Dev:** "So **sync-in** still creates a **bundle** and unpacks it?"
+> **Dev:** "Also erstellt **sync-in** weiterhin ein **bundle** und entpackt es?"
 
-> **Domain expert:** "Exactly. The **sync service** doesn't know which layer it's talking to. It calls `exec` and `copyIn` — the **filesystem layer** just runs those as local shell commands."
+> **Domain Expert:** "Genau. Der **sync service** weiß nicht, mit welchem Layer er spricht. Er ruft `exec` und `copyIn` auf — der **filesystem layer** führt das einfach als lokale Shell-Commands aus."
 
 </example>
 
-## Re-running
+## Re-Running
 
-When invoked again in the same conversation:
+Beim erneuten Auslösen in derselben Konversation:
 
-1. Read the existing `UBIQUITOUS_LANGUAGE.md`
-2. Incorporate any new terms from subsequent discussion
-3. Update definitions if understanding has evolved
-4. Re-flag any new ambiguities
-5. Rewrite the example dialogue to incorporate new terms
+1. Die bestehende `UBIQUITOUS_LANGUAGE.md` lesen
+2. Neue Begriffe aus nachfolgender Diskussion einarbeiten
+3. Definitionen updaten, falls sich das Verständnis entwickelt hat
+4. Neue Mehrdeutigkeiten neu flaggen
+5. Den Beispiel-Dialog umschreiben, um neue Begriffe einzubauen

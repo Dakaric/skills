@@ -1,22 +1,22 @@
-# Issue tracker: GitHub
+# Issue Tracker: GitHub
 
-Issues and PRDs for this repo live as GitHub issues. Use the `gh` CLI for all operations.
+Issues und PRDs für dieses Repo leben als GitHub Issues. Nutz das `gh` CLI für alle Operationen.
 
-## Conventions
+## Konventionen
 
-- **Create an issue**: `gh issue create --title "..." --body "..."`. Use a heredoc for multi-line bodies.
-- **Read an issue**: `gh issue view <number> --comments`, filtering comments by `jq` and also fetching labels.
-- **List issues**: `gh issue list --state open --json number,title,body,labels,comments --jq '[.[] | {number, title, body, labels: [.labels[].name], comments: [.comments[].body]}]'` with appropriate `--label` and `--state` filters.
-- **Comment on an issue**: `gh issue comment <number> --body "..."`
-- **Apply / remove labels**: `gh issue edit <number> --add-label "..."` / `--remove-label "..."`
-- **Close**: `gh issue close <number> --comment "..."`
+- **Issue erstellen**: `gh issue create --title "..." --body "..."`. Heredoc für mehrzeilige Bodies nutzen.
+- **Issue lesen**: `gh issue view <number> --comments`, Comments per `jq` filtern und auch Labels holen.
+- **Issues listen**: `gh issue list --state open --json number,title,body,labels,comments --jq '[.[] | {number, title, body, labels: [.labels[].name], comments: [.comments[].body]}]'` mit passenden `--label` und `--state` Filtern.
+- **Auf Issue kommentieren**: `gh issue comment <number> --body "..."`
+- **Labels anwenden / entfernen**: `gh issue edit <number> --add-label "..."` / `--remove-label "..."`
+- **Schließen**: `gh issue close <number> --comment "..."`
 
-Infer the repo from `git remote -v` — `gh` does this automatically when run inside a clone.
+Das Repo aus `git remote -v` ableiten - `gh` macht das automatisch, wenn es innerhalb eines Clones läuft.
 
-## When a skill says "publish to the issue tracker"
+## Wenn ein Skill sagt "im Issue Tracker veröffentlichen"
 
-Create a GitHub issue.
+Ein GitHub Issue erstellen.
 
-## When a skill says "fetch the relevant ticket"
+## Wenn ein Skill sagt "das relevante Ticket holen"
 
-Run `gh issue view <number> --comments`.
+`gh issue view <number> --comments` ausführen.

@@ -1,10 +1,10 @@
-# Explicit `/setup-matt-pocock-skills` pointer only for hard dependencies
+# Expliziter `/setup-matt-pocock-skills` Pointer nur für Hard Dependencies
 
-Engineering skills depend on per-repo config (issue tracker, triage label vocabulary, domain doc layout) seeded by `/setup-matt-pocock-skills`. Some skills cannot meaningfully function without that config — they have to publish to a specific issue tracker or apply a specific label string. Others only use it to sharpen output (vocabulary, ADR awareness) and degrade gracefully without it.
+Engineering-Skills hängen von per-Repo-Konfig ab (Issue Tracker, Triage-Label-Vokabular, Domain-Doc-Layout), die `/setup-matt-pocock-skills` seedet. Manche Skills können ohne diese Konfig nicht sinnvoll funktionieren - sie müssen in einen bestimmten Issue Tracker publishen oder einen bestimmten Label-String anwenden. Andere nutzen sie nur, um den Output zu schärfen (Vokabular, ADR-Awareness), und degradieren ohne sie sanft.
 
-We split these into **hard-dependency** and **soft-dependency** skills:
+Wir teilen das auf in **Hard-Dependency**- und **Soft-Dependency**-Skills:
 
-- **Hard dependency** (`to-issues`, `to-prd`, `triage`) — include an explicit one-liner: _"… should have been provided to you — run `/setup-matt-pocock-skills` if not."_ Without the mapping, output is wrong, not just fuzzy.
-- **Soft dependency** (`diagnose`, `tdd`, `improve-codebase-architecture`, `zoom-out`) — reference "the project's domain glossary" and "ADRs in the area you're touching" in vague prose only. If the docs aren't there, the skill still works; output is just less sharp.
+- **Hard Dependency** (`to-issues`, `to-prd`, `triage`) — enthalten einen expliziten Einzeiler: _"… should have been provided to you — run `/setup-matt-pocock-skills` if not."_ Ohne das Mapping ist der Output falsch, nicht nur unscharf.
+- **Soft Dependency** (`diagnose`, `tdd`, `improve-codebase-architecture`, `zoom-out`) — referenzieren "das Domain-Glossar des Projekts" und "ADRs im betroffenen Bereich" nur in unverbindlicher Prosa. Wenn die Docs nicht da sind, funktioniert der Skill trotzdem; der Output ist nur weniger scharf.
 
-The split keeps soft-dependency skills token-light and avoids cargo-culting the setup pointer into places where it isn't load-bearing.
+Die Aufteilung hält Soft-Dependency-Skills token-light und vermeidet, den Setup-Pointer per Cargo-Cult an Stellen einzubauen, wo er nicht load-bearing ist.

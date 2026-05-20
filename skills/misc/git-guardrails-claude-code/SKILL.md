@@ -1,42 +1,42 @@
 ---
 name: git-guardrails-claude-code
-description: Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, etc.) before they execute. Use when user wants to prevent destructive git operations, add git safety hooks, or block git push/reset in Claude Code.
+description: Claude Code Hooks einrichten, die gefährliche Git-Commands (push, reset --hard, clean, branch -D etc.) blockieren, bevor sie ausgeführt werden. Nutze, wenn der User destruktive Git-Operationen verhindern, Git-Safety-Hooks hinzufügen oder git push / reset in Claude Code blocken will.
 ---
 
 # Setup Git Guardrails
 
-Sets up a PreToolUse hook that intercepts and blocks dangerous git commands before Claude executes them.
+Setzt einen PreToolUse Hook auf, der gefährliche Git-Commands abfängt und blockt, bevor Claude sie ausführt.
 
-## What Gets Blocked
+## Was geblockt wird
 
-- `git push` (all variants including `--force`)
+- `git push` (alle Varianten inklusive `--force`)
 - `git reset --hard`
 - `git clean -f` / `git clean -fd`
 - `git branch -D`
 - `git checkout .` / `git restore .`
 
-When blocked, Claude sees a message telling it that it does not have authority to access these commands.
+Wenn geblockt, sieht Claude eine Message, die ihm sagt, dass er keine Autorität für diese Commands hat.
 
 ## Steps
 
-### 1. Ask scope
+### 1. Scope abfragen
 
-Ask the user: install for **this project only** (`.claude/settings.json`) or **all projects** (`~/.claude/settings.json`)?
+Den User fragen: für **dieses Projekt only** (`.claude/settings.json`) oder **alle Projekte** (`~/.claude/settings.json`) installieren?
 
-### 2. Copy the hook script
+### 2. Hook-Script kopieren
 
-The bundled script is at: [scripts/block-dangerous-git.sh](scripts/block-dangerous-git.sh)
+Das gebündelte Script liegt unter: [scripts/block-dangerous-git.sh](scripts/block-dangerous-git.sh)
 
-Copy it to the target location based on scope:
+Es je nach Scope an den Zielort kopieren:
 
 - **Project**: `.claude/hooks/block-dangerous-git.sh`
 - **Global**: `~/.claude/hooks/block-dangerous-git.sh`
 
-Make it executable with `chmod +x`.
+Mit `chmod +x` ausführbar machen.
 
-### 3. Add hook to settings
+### 3. Hook in Settings hinzufügen
 
-Add to the appropriate settings file:
+Zur passenden Settings-Datei hinzufügen:
 
 **Project** (`.claude/settings.json`):
 
@@ -78,18 +78,18 @@ Add to the appropriate settings file:
 }
 ```
 
-If the settings file already exists, merge the hook into existing `hooks.PreToolUse` array — don't overwrite other settings.
+Wenn die Settings-Datei schon existiert, den Hook ins bestehende `hooks.PreToolUse` Array mergen - keine anderen Settings überschreiben.
 
-### 4. Ask about customization
+### 4. Nach Customization fragen
 
-Ask if user wants to add or remove any patterns from the blocked list. Edit the copied script accordingly.
+Frag, ob der User Patterns aus der Blocked-Liste hinzufügen oder entfernen will. Das kopierte Script entsprechend editieren.
 
-### 5. Verify
+### 5. Verifizieren
 
-Run a quick test:
+Ein kurzer Test:
 
 ```bash
 echo '{"tool_input":{"command":"git push origin main"}}' | <path-to-script>
 ```
 
-Should exit with code 2 and print a BLOCKED message to stderr.
+Sollte mit Exit-Code 2 enden und eine BLOCKED Message nach stderr printen.

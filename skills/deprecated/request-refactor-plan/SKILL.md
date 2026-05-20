@@ -1,68 +1,68 @@
 ---
 name: request-refactor-plan
-description: Create a detailed refactor plan with tiny commits via user interview, then file it as a GitHub issue. Use when user wants to plan a refactor, create a refactoring RFC, or break a refactor into safe incremental steps.
+description: Erstell einen detaillierten Refactor-Plan mit winzigen Commits per User-Interview und leg ihn als GitHub Issue ab. Nutze, wenn der User einen Refactor planen, ein Refactoring-RFC erstellen oder einen Refactor in sichere inkrementelle Schritte zerlegen will.
 ---
 
-This skill will be invoked when the user wants to create a refactor request. You should go through the steps below. You may skip steps if you don't consider them necessary.
+Dieser Skill wird ausgelöst, wenn der User einen Refactor-Request erstellen will. Geh die Schritte unten durch. Schritte können übersprungen werden, wenn nicht nötig.
 
-1. Ask the user for a long, detailed description of the problem they want to solve and any potential ideas for solutions.
+1. Frag den User nach einer langen, detaillierten Beschreibung des Problems, das er lösen will, und etwaigen Lösungsideen.
 
-2. Explore the repo to verify their assertions and understand the current state of the codebase.
+2. Erkunde das Repo, um seine Aussagen zu verifizieren und den aktuellen Stand der Codebase zu verstehen.
 
-3. Ask whether they have considered other options, and present other options to them.
+3. Frag, ob er andere Optionen erwogen hat, und präsentier ihm andere Optionen.
 
-4. Interview the user about the implementation. Be extremely detailed and thorough.
+4. Interviewe den User zur Implementation. Sei extrem detailliert und gründlich.
 
-5. Hammer out the exact scope of the implementation. Work out what you plan to change and what you plan not to change.
+5. Hämmer den exakten Scope der Implementation aus. Arbeite raus, was du ändern willst und was nicht.
 
-6. Look in the codebase to check for test coverage of this area of the codebase. If there is insufficient test coverage, ask the user what their plans for testing are.
+6. Schau in die Codebase, ob es Test-Abdeckung in diesem Bereich gibt. Wenn unzureichend, frag den User nach seinen Testing-Plänen.
 
-7. Break the implementation into a plan of tiny commits. Remember Martin Fowler's advice to "make each refactoring step as small as possible, so that you can always see the program working."
+7. Zerleg die Implementation in einen Plan aus winzigen Commits. Erinner dich an Martin Fowlers Rat: "mach jeden Refactoring-Schritt so klein wie möglich, damit du das Programm immer laufend sehen kannst."
 
-8. Create a GitHub issue with the refactor plan. Use the following template for the issue description:
+8. Erstell ein GitHub Issue mit dem Refactor-Plan. Nutz das folgende Template für die Issue-Description:
 
 <refactor-plan-template>
 
-## Problem Statement
+## Problembeschreibung
 
-The problem that the developer is facing, from the developer's perspective.
+Das Problem, mit dem der Entwickler konfrontiert ist, aus Sicht des Entwicklers.
 
-## Solution
+## Lösung
 
-The solution to the problem, from the developer's perspective.
+Die Lösung für das Problem, aus Sicht des Entwicklers.
 
 ## Commits
 
-A LONG, detailed implementation plan. Write the plan in plain English, breaking down the implementation into the tiniest commits possible. Each commit should leave the codebase in a working state.
+Ein LANGER, detaillierter Implementierungsplan. Schreib den Plan in Klartext und zerleg die Implementation in die kleinstmöglichen Commits. Jeder Commit sollte die Codebase in einem lauffähigen Zustand hinterlassen.
 
 ## Decision Document
 
-A list of implementation decisions that were made. This can include:
+Eine Liste der Implementierungs-Entscheidungen, die getroffen wurden. Das kann beinhalten:
 
-- The modules that will be built/modified
-- The interfaces of those modules that will be modified
-- Technical clarifications from the developer
-- Architectural decisions
-- Schema changes
-- API contracts
-- Specific interactions
+- Die Module, die gebaut/modifiziert werden
+- Die Interfaces dieser Module, die modifiziert werden
+- Technische Klärungen vom Entwickler
+- Architektur-Entscheidungen
+- Schema-Änderungen
+- API-Verträge
+- Spezifische Interaktionen
 
-Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
+KEINE konkreten Dateipfade oder Code-Snippets aufnehmen. Die können sehr schnell veralten.
 
-## Testing Decisions
+## Test-Entscheidungen
 
-A list of testing decisions that were made. Include:
+Eine Liste der Test-Entscheidungen, die getroffen wurden. Aufnehmen:
 
-- A description of what makes a good test (only test external behavior, not implementation details)
-- Which modules will be tested
-- Prior art for the tests (i.e. similar types of tests in the codebase)
+- Eine Beschreibung dessen, was einen guten Test ausmacht (nur externes Verhalten testen, keine Implementierungsdetails)
+- Welche Module getestet werden
+- Prior Art für die Tests (also ähnliche Tests in der Codebase)
 
 ## Out of Scope
 
-A description of the things that are out of scope for this refactor.
+Eine Beschreibung der Dinge, die für diesen Refactor out of scope sind.
 
-## Further Notes (optional)
+## Weitere Anmerkungen (optional)
 
-Any further notes about the refactor.
+Weitere Anmerkungen zum Refactor.
 
 </refactor-plan-template>

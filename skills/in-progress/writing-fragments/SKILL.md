@@ -1,75 +1,75 @@
 ---
 name: writing-fragments
-description: Grilling session that mines the user for fragments — heterogeneous nuggets of writing (claims, vignettes, sharp sentences, half-thoughts) — and appends them to a single document as raw material for a future article. Use when the user wants to develop ideas before imposing structure, or mentions "fragments", "ideate", or "raw material" for writing.
+description: Grilling-Session, die den User nach Fragments abklopft - heterogenen Schreibnuggets (Claims, Vignetten, scharfen Sätzen, Half-Thoughts) - und sie an ein einzelnes Dokument als Rohmaterial für einen zukünftigen Artikel anhängt. Nutze, wenn der User Ideen entwickeln will, bevor er Struktur aufzwingt, oder "fragments", "ideate" oder "raw material" fürs Schreiben erwähnt.
 ---
 
 <what-to-do>
 
-Run a grilling session that produces fragments. Interview the user relentlessly about whatever they want to write about. Do not impose phases, outlines, or structure — that is explicitly out of scope.
+Fahr eine Grilling-Session, die Fragments produziert. Interviewe den User unerbittlich zu dem, worüber er schreiben will. Zwing keine Phasen, Outlines oder Struktur auf - das ist explizit out of scope.
 
-As fragments emerge from either side of the conversation, append them to a single markdown file. The user will be editing this file during the session; always re-read it before writing so their edits are preserved.
+Sobald Fragments aus beiden Seiten der Konversation auftauchen, häng sie an ein einzelnes Markdown-File an. Der User wird dieses File während der Session editieren; lies es immer vor dem Schreiben neu, damit seine Edits bewahrt werden.
 
-If the user did not pass a path, ask once where to save the document, then remember it for the rest of the session.
+Wenn der User keinen Pfad übergeben hat, frag einmal, wo das Dokument gespeichert werden soll, und merk dir das für den Rest der Session.
 
-Capture fragments from the very first thing the user says, including the initial prompt.
+Cap Fragments vom allerersten, was der User sagt, inklusive des Initial-Prompts.
 
-On first write, put a single H1 at the top with a working title (it can change later) and nothing else — no metadata, no TOC, no date.
+Beim ersten Write eine einzige H1 oben mit einem Working Title (kann sich später ändern) und sonst nichts - keine Metadaten, kein TOC, kein Datum.
 
 </what-to-do>
 
 <supporting-info>
 
-## What is a fragment
+## Was ist ein Fragment
 
-A fragment is any piece of text that might survive into the final article. It must be _readable by the author_ — the author can tell what it means — but it does not need to define its terms or be comprehensible to a cold reader. The bar is "is this a piece of good writing?", not "is this a self-contained argument?"
+Ein Fragment ist jedes Stück Text, das in den finalen Artikel überleben könnte. Es muss _für den Autor lesbar_ sein - der Autor erkennt, was es bedeutet - aber es muss seine Begriffe nicht definieren oder für einen kalten Leser verständlich sein. Die Latte ist "ist das ein gutes Stück Schreibe?", nicht "ist das ein in sich geschlossenes Argument?"
 
-Fragments are deliberately heterogeneous. Examples of what could be a fragment:
+Fragments sind bewusst heterogen. Beispiele dessen, was ein Fragment sein könnte:
 
-- A sharp sentence you'd want to deploy somewhere but don't yet know where.
-- A claim with a one-line justification.
-- A vignette: a thing that happened, a code snippet, a scenario, an analogy.
-- A half-thought: "something about how X feels like Y, work this out later."
-- A quote, a piece of dialogue, an overheard line.
-- A list of related observations that hang together by feel.
-- A complaint, a confession, a punchline.
+- Ein scharfer Satz, den du irgendwo einsetzen willst, aber noch nicht weißt wo.
+- Ein Claim mit einer einzeiligen Rechtfertigung.
+- Eine Vignette: was passiert ist, ein Code-Snippet, ein Szenario, eine Analogie.
+- Ein Half-Thought: "irgendwas dazu, wie X sich wie Y anfühlt, später ausarbeiten."
+- Ein Zitat, ein Stück Dialog, eine aufgeschnappte Zeile.
+- Eine Liste verwandter Beobachtungen, die nach Gefühl zusammenhängen.
+- Eine Klage, ein Geständnis, eine Pointe.
 
-The novelist's diary is the model: years of unstructured noticings that later get mined for raw material. Fragments are noticings.
+Das Tagebuch des Novelisten ist das Modell: Jahre unstrukturierter Beobachtungen, die später nach Rohmaterial gemined werden. Fragments sind Beobachtungen.
 
-## File format
+## File-Format
 
 ```markdown
 # Working title
 
-A first fragment lives here.
+Hier lebt ein erstes Fragment.
 
-It can be multiple paragraphs. It can include lists, code, quotes — whatever
-shape the fragment naturally takes.
-
----
-
-A second fragment.
+Es kann mehrere Absätze sein. Es kann Listen, Code, Zitate enthalten — welche
+Form das Fragment auch natürlich annimmt.
 
 ---
 
-> A quoted line that the user wants to keep around.
-
-A reaction to it.
+Ein zweites Fragment.
 
 ---
 
-- A cluster of related observations
-- That hang together by feel
-- And want to be near each other
+> Eine zitierte Zeile, die der User aufheben will.
+
+Eine Reaktion darauf.
+
+---
+
+- Ein Cluster verwandter Beobachtungen
+- Die durch Gefühl zusammenhängen
+- Und nah beieinander stehen wollen
 ```
 
-Fragments are separated by a horizontal rule (`\n---\n`). No headings inside the body. No tags. No order beyond the order they were added.
+Fragments sind durch eine Horizontal Rule (`\n---\n`) getrennt. Keine Headings im Body. Keine Tags. Keine Ordnung jenseits der Reihenfolge, in der sie hinzugefügt wurden.
 
-## Writing rhythm
+## Schreib-Rhythmus
 
-Append silently. Don't ask permission for each fragment. Mention what you added in passing ("adding that"), but don't interrupt the conversation with save dialogs.
+Still anhängen. Frag nicht für jedes Fragment um Erlaubnis. Erwähn beiläufig, was du hinzugefügt hast ("häng ich dran"), aber unterbrich die Konversation nicht mit Save-Dialogen.
 
-Before every write: re-read the file from disk. The user may have edited, reordered, or deleted fragments between turns — preserve their changes. Never overwrite the file; only append (or, if the user asks, edit a specific fragment in place).
+Vor jedem Write: das File von der Platte neu lesen. Der User kann zwischen Turns editiert, neu sortiert oder Fragments gelöscht haben - bewahr seine Änderungen. Überschreib das File nie; nur anhängen (oder, falls der User es fragt, ein spezifisches Fragment in-place editieren).
 
-The user can say "cut the last one", "rewrite that one sharper", "merge those two" at any time. Treat those as first-class instructions.
+Der User kann jederzeit "cut das letzte raus", "schreib das schärfer um", "merge die zwei" sagen. Behandel das als First-Class-Anweisungen.
 
 </supporting-info>

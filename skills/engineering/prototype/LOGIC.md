@@ -1,79 +1,79 @@
 # Logic Prototype
 
-A tiny interactive terminal app that lets the user drive a state model by hand. Use this when the question is about **business logic, state transitions, or data shape** — the kind of thing that looks reasonable on paper but only feels wrong once you push it through real cases.
+Eine winzige interaktive Terminal-App, die den User ein State-Modell von Hand steuern lässt. Nutz das, wenn die Frage um **Business Logic, State Transitions oder Data Shape** geht - das, was auf Papier vernünftig aussieht, sich aber erst falsch anfühlt, wenn du es durch echte Fälle drückst.
 
-## When this is the right shape
+## Wann das die richtige Form ist
 
-- "I'm not sure if this state machine handles the edge case where X then Y."
-- "Does this data model actually let me represent the case where..."
-- "I want to feel out what the API should look like before writing it."
-- Anything where the user wants to **press buttons and watch state change**.
+- "Ich bin mir nicht sicher, ob diese State Machine den Edge Case behandelt, in dem X dann Y passiert."
+- "Erlaubt mir dieses Datenmodell überhaupt, den Fall darzustellen, in dem..."
+- "Ich will durchspielen, wie die API aussehen sollte, bevor ich sie schreibe."
+- Alles, wo der User **Buttons drücken und State sich ändern sehen** will.
 
-If the question is "what should this look like" — wrong branch. Use [UI.md](UI.md).
+Wenn die Frage "wie sollte das aussehen" ist - falscher Branch. Nutze [UI.md](UI.md).
 
-## Process
+## Prozess
 
-### 1. State the question
+### 1. Frage formulieren
 
-Before writing code, write down what state model and what question you're prototyping. One paragraph, in the prototype's README or a comment at the top of the file. A logic prototype that answers the wrong question is pure waste — make the question explicit so it can be checked later, whether the user is watching now or returning to it AFK.
+Bevor du Code schreibst, schreib auf, welches State-Modell und welche Frage du prototypest. Ein Absatz, im README des Prototyps oder als Kommentar oben in der Datei. Ein Logic-Prototyp, der die falsche Frage beantwortet, ist reine Verschwendung - mach die Frage explizit, damit sie später geprüft werden kann, egal ob der User jetzt zuschaut oder AFK zurückkommt.
 
-### 2. Pick the language
+### 2. Sprache wählen
 
-Use whatever the host project uses. If the project has no obvious runtime (e.g. a docs repo), ask.
+Nimm, was das Host-Projekt nutzt. Wenn das Projekt keine offensichtliche Runtime hat (z.B. ein Docs-Repo), frag.
 
-Match the project's existing conventions for tooling — don't add a new package manager or runtime just for the prototype.
+Match die bestehenden Tooling-Konventionen des Projekts - bring keinen neuen Package Manager oder Runtime nur für den Prototyp.
 
-### 3. Isolate the logic in a portable module
+### 3. Logic in ein portables Modul isolieren
 
-Put the actual logic — the bit that's answering the question — behind a small, pure interface that could be lifted out and dropped into the real codebase later. The TUI around it is throwaway; the logic module shouldn't be.
+Steck die eigentliche Logic - das Stück, das die Frage beantwortet - hinter ein kleines, pures Interface, das später rausgehoben und in die echte Codebase eingebaut werden könnte. Das TUI drumherum ist Wegwerf; das Logic-Modul sollte das nicht sein.
 
-The right shape depends on the question:
+Die richtige Form hängt von der Frage ab:
 
-- **A pure reducer** — `(state, action) => state`. Good when actions are discrete events and state is a single value.
-- **A state machine** — explicit states and transitions. Good when "which actions are even legal right now" is part of the question.
-- **A small set of pure functions** over a plain data type. Good when there's no implicit current state — just transformations.
-- **A class or module with a clear method surface** when the logic genuinely owns ongoing internal state.
+- **Ein pure Reducer** - `(state, action) => state`. Gut, wenn Actions diskrete Events sind und State ein einzelner Wert.
+- **Eine State Machine** - explizite States und Transitions. Gut, wenn "welche Actions sind jetzt überhaupt legal" Teil der Frage ist.
+- **Ein kleines Set pure Functions** über einem Plain-Data-Type. Gut, wenn es keinen impliziten Current State gibt - nur Transformationen.
+- **Eine Class oder ein Modul mit klarer Method-Surface**, wenn die Logic genuin laufenden internen State besitzt.
 
-Pick whichever shape best fits the question being asked, *not* whichever is easiest to wire to a TUI. Keep it pure: no I/O, no terminal code, no `console.log` for control flow. The TUI imports it and calls into it; nothing flows the other direction.
+Wähl die Form, die am besten zur gestellten Frage passt, *nicht* die, die am einfachsten ans TUI zu wiren ist. Halt sie pur: kein I/O, kein Terminal-Code, kein `console.log` für Control Flow. Das TUI importiert sie und ruft rein; nichts fließt in die andere Richtung.
 
-This is what makes the prototype useful past its own lifetime. When the question's been answered, the validated reducer / machine / function set can be lifted into the real module — the TUI shell gets deleted.
+Das macht den Prototyp über seine Lebenszeit hinaus nützlich. Wenn die Frage beantwortet ist, kann der validierte Reducer / die Machine / das Function-Set ins echte Modul gehoben werden - die TUI-Shell wird gelöscht.
 
-### 4. Build the smallest TUI that exposes the state
+### 4. Das kleinste TUI bauen, das den State sichtbar macht
 
-Build it as a **lightweight TUI** — on every tick, clear the screen (`console.clear()` / `print("\033[2J\033[H")` / equivalent) and re-render the whole frame. The user should always see one stable view, not an ever-growing scrollback.
+Bau es als **leichtgewichtiges TUI** - bei jedem Tick den Screen clearen (`console.clear()` / `print("\033[2J\033[H")` / Äquivalent) und den ganzen Frame neu rendern. Der User sollte immer eine stabile View sehen, keinen wachsenden Scrollback.
 
-Each frame has two parts, in this order:
+Jeder Frame hat zwei Teile, in dieser Reihenfolge:
 
-1. **Current state**, pretty-printed and diff-friendly (one field per line, or formatted JSON). Use **bold** for field names or section headers and **dim** for less important context (timestamps, IDs, derived values). Native ANSI escape codes are fine — `\x1b[1m` bold, `\x1b[2m` dim, `\x1b[0m` reset. No need to pull in a styling library unless one is already in the project.
-2. **Keyboard shortcuts**, listed at the bottom: `[a] add user  [d] delete user  [t] tick clock  [q] quit`. Bold the key, dim the description, or vice-versa — whatever reads cleanly.
+1. **Current State**, pretty-printed und diff-freundlich (ein Feld pro Zeile oder formatiertes JSON). Nutze **bold** für Feldnamen oder Section-Header und **dim** für weniger wichtigen Context (Timestamps, IDs, abgeleitete Werte). Native ANSI Escape Codes sind okay - `\x1b[1m` bold, `\x1b[2m` dim, `\x1b[0m` reset. Keine Styling-Library reinziehen, wenn nicht schon im Projekt.
+2. **Keyboard Shortcuts**, unten gelistet: `[a] add user  [d] delete user  [t] tick clock  [q] quit`. Bold die Taste, dim die Beschreibung oder umgekehrt - was sauber liest.
 
-Behaviour:
+Verhalten:
 
-1. **Initialise state** — a single in-memory object/struct. Render the first frame on start.
-2. **Read one keystroke (or one line)** at a time, dispatch to a handler that mutates state.
-3. **Re-render** the full frame after every action — don't append, replace.
-4. **Loop until quit.**
+1. **State initialisieren** - ein einzelnes In-Memory-Object / Struct. Den ersten Frame beim Start rendern.
+2. **Einen Keystroke (oder eine Zeile)** auf einmal lesen, an einen Handler dispatchen, der State mutiert.
+3. **Re-rendern** des vollen Frames nach jeder Action - nicht anhängen, ersetzen.
+4. **Loopen bis Quit.**
 
-The whole frame should fit on one screen.
+Der ganze Frame sollte auf einen Screen passen.
 
-### 5. Make it runnable in one command
+### 5. Mit einem Command runnable machen
 
-Add a script to the project's existing task runner (`package.json` scripts, `Makefile`, `justfile`, `pyproject.toml`). The user should run `pnpm run <prototype-name>` or equivalent — never need to remember a path.
+Ein Script zum bestehenden Task Runner des Projekts hinzufügen (`package.json` Scripts, `Makefile`, `justfile`, `pyproject.toml`). Der User soll `pnpm run <prototype-name>` oder Äquivalent ausführen - nie einen Pfad merken müssen.
 
-If the host project has no task runner, just put the command at the top of the prototype's README.
+Wenn das Host-Projekt keinen Task Runner hat, schreib den Command einfach oben ins README des Prototyps.
 
-### 6. Hand it over
+### 6. Übergeben
 
-Give the user the run command. They'll drive it themselves; the interesting moments are when they say "wait, that shouldn't be possible" or "huh, I assumed X would be different" — those are the bugs in the _idea_, which is the whole point. If they want new actions added, add them. Prototypes evolve.
+Gib dem User den Run-Command. Er wird selbst steuern; die interessanten Momente sind, wenn er sagt "Moment, das sollte gar nicht gehen" oder "huh, ich dachte X wäre anders" - das sind die Bugs in der _Idee_, was der ganze Punkt ist. Wenn er neue Actions will, fügst du sie hinzu. Prototypen evolvieren.
 
-### 7. Capture the answer
+### 7. Antwort festhalten
 
-When the prototype has done its job, the answer to the question is the only thing worth keeping. If the user is around, ask what it taught them. If not, leave a `NOTES.md` next to the prototype so the answer can be filled in (or filled in by you, if you've watched the session) before the prototype gets deleted.
+Wenn der Prototyp seinen Job getan hat, ist die Antwort auf die Frage das Einzige, was sich zu behalten lohnt. Wenn der User da ist, frag, was er gelernt hat. Wenn nicht, lass ein `NOTES.md` neben dem Prototyp, damit die Antwort eingetragen werden kann (oder von dir, falls du der Session zugeschaut hast), bevor der Prototyp gelöscht wird.
 
-## Anti-patterns
+## Anti-Patterns
 
-- **Don't add tests.** A prototype that needs tests is no longer a prototype.
-- **Don't wire it to the real database.** Use an in-memory store unless the question is specifically about persistence.
-- **Don't generalise.** No "what if we wanted to support X later." The prototype answers one question.
-- **Don't blur the logic and the TUI together.** If the reducer / state machine references `console.log`, prompts, or terminal escape codes, it's no longer portable. Keep the TUI as a thin shell over a pure module.
-- **Don't ship the TUI shell into production.** The shell is optimised for being driven by hand from a terminal. The logic module behind it is the bit worth keeping.
+- **Keine Tests hinzufügen.** Ein Prototyp, der Tests braucht, ist kein Prototyp mehr.
+- **Nicht an die echte Datenbank wiren.** Nimm einen In-Memory-Store, außer die Frage geht spezifisch um Persistenz.
+- **Nicht generalisieren.** Kein "was, wenn wir später X unterstützen wollen". Der Prototyp beantwortet eine Frage.
+- **Logic und TUI nicht ineinander verwischen.** Wenn der Reducer / die State Machine `console.log`, Prompts oder Terminal-Escape-Codes referenziert, ist sie nicht mehr portabel. Halt das TUI als dünne Shell über einem puren Modul.
+- **Die TUI-Shell nicht in Production shippen.** Die Shell ist dafür optimiert, von Hand aus einem Terminal gesteuert zu werden. Das Logic-Modul dahinter ist das Stück, das zu behalten lohnt.

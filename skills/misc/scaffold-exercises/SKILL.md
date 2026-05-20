@@ -1,84 +1,84 @@
 ---
 name: scaffold-exercises
-description: Create exercise directory structures with sections, problems, solutions, and explainers that pass linting. Use when user wants to scaffold exercises, create exercise stubs, or set up a new course section.
+description: Exercise-Verzeichnisstrukturen mit Sections, Problems, Solutions und Explainern anlegen, die Linting bestehen. Nutze, wenn der User Exercises scaffolden, Exercise-Stubs anlegen oder eine neue Course-Section aufsetzen will.
 ---
 
 # Scaffold Exercises
 
-Create exercise directory structures that pass `pnpm ai-hero-cli internal lint`, then commit with `git commit`.
+Exercise-Verzeichnisstrukturen anlegen, die `pnpm ai-hero-cli internal lint` bestehen, dann mit `git commit` committen.
 
-## Directory naming
+## Verzeichnis-Naming
 
-- **Sections**: `XX-section-name/` inside `exercises/` (e.g., `01-retrieval-skill-building`)
-- **Exercises**: `XX.YY-exercise-name/` inside a section (e.g., `01.03-retrieval-with-bm25`)
-- Section number = `XX`, exercise number = `XX.YY`
-- Names are dash-case (lowercase, hyphens)
+- **Sections**: `XX-section-name/` innerhalb `exercises/` (z.B. `01-retrieval-skill-building`)
+- **Exercises**: `XX.YY-exercise-name/` innerhalb einer Section (z.B. `01.03-retrieval-with-bm25`)
+- Section-Nummer = `XX`, Exercise-Nummer = `XX.YY`
+- Namen sind Dash-Case (lowercase, Bindestriche)
 
-## Exercise variants
+## Exercise-Varianten
 
-Each exercise needs at least one of these subfolders:
+Jedes Exercise braucht mindestens eines dieser Subfolder:
 
-- `problem/` - student workspace with TODOs
-- `solution/` - reference implementation
-- `explainer/` - conceptual material, no TODOs
+- `problem/` - Student-Workspace mit TODOs
+- `solution/` - Referenz-Implementation
+- `explainer/` - konzeptuelles Material, keine TODOs
 
-When stubbing, default to `explainer/` unless the plan specifies otherwise.
+Beim Stubben default zu `explainer/`, außer der Plan spezifiziert anders.
 
-## Required files
+## Required Files
 
-Each subfolder (`problem/`, `solution/`, `explainer/`) needs a `readme.md` that:
+Jeder Subfolder (`problem/`, `solution/`, `explainer/`) braucht eine `readme.md`, die:
 
-- Is **not empty** (must have real content, even a single title line works)
-- Has no broken links
+- **Nicht leer** ist (muss echten Content haben, eine einzelne Title-Line reicht)
+- Keine kaputten Links hat
 
-When stubbing, create a minimal readme with a title and a description:
+Beim Stubben eine minimale Readme mit Title und Beschreibung anlegen:
 
 ```md
-# Exercise Title
+# Exercise-Titel
 
-Description here
+Beschreibung hier
 ```
 
-If the subfolder has code, it also needs a `main.ts` (>1 line). But for stubs, a readme-only exercise is fine.
+Wenn der Subfolder Code hat, braucht er auch eine `main.ts` (>1 Line). Aber für Stubs ist ein Readme-only Exercise okay.
 
 ## Workflow
 
-1. **Parse the plan** - extract section names, exercise names, and variant types
-2. **Create directories** - `mkdir -p` for each path
-3. **Create stub readmes** - one `readme.md` per variant folder with a title
-4. **Run lint** - `pnpm ai-hero-cli internal lint` to validate
-5. **Fix any errors** - iterate until lint passes
+1. **Plan parsen** - Section-Namen, Exercise-Namen und Variant-Typen extrahieren
+2. **Verzeichnisse anlegen** - `mkdir -p` für jeden Pfad
+3. **Stub-Readmes anlegen** - eine `readme.md` pro Variant-Folder mit einem Titel
+4. **Lint laufen lassen** - `pnpm ai-hero-cli internal lint` zum Validieren
+5. **Etwaige Fehler fixen** - iterieren, bis Lint passt
 
-## Lint rules summary
+## Lint-Regeln zusammengefasst
 
-The linter (`pnpm ai-hero-cli internal lint`) checks:
+Der Linter (`pnpm ai-hero-cli internal lint`) prüft:
 
-- Each exercise has subfolders (`problem/`, `solution/`, `explainer/`)
-- At least one of `problem/`, `explainer/`, or `explainer.1/` exists
-- `readme.md` exists and is non-empty in the primary subfolder
-- No `.gitkeep` files
-- No `speaker-notes.md` files
-- No broken links in readmes
-- No `pnpm run exercise` commands in readmes
-- `main.ts` required per subfolder unless it's readme-only
+- Jedes Exercise hat Subfolder (`problem/`, `solution/`, `explainer/`)
+- Mindestens eines von `problem/`, `explainer/` oder `explainer.1/` existiert
+- `readme.md` existiert und ist nicht leer im primären Subfolder
+- Keine `.gitkeep` Files
+- Keine `speaker-notes.md` Files
+- Keine kaputten Links in Readmes
+- Keine `pnpm run exercise` Commands in Readmes
+- `main.ts` pro Subfolder erforderlich, außer Readme-only
 
-## Moving/renaming exercises
+## Exercises verschieben / umbenennen
 
-When renumbering or moving exercises:
+Beim Renumbern oder Verschieben:
 
-1. Use `git mv` (not `mv`) to rename directories - preserves git history
-2. Update the numeric prefix to maintain order
-3. Re-run lint after moves
+1. `git mv` (nicht `mv`) zum Umbenennen der Verzeichnisse - behält Git-History
+2. Den numerischen Prefix updaten, um die Ordnung zu erhalten
+3. Lint nach Moves nochmal laufen lassen
 
-Example:
+Beispiel:
 
 ```bash
 git mv exercises/01-retrieval/01.03-embeddings exercises/01-retrieval/01.04-embeddings
 ```
 
-## Example: stubbing from a plan
+## Beispiel: aus einem Plan stubben
 
-Given a plan like:
+Gegeben ein Plan wie:
 
 ```
 Section 05: Memory Skill Building
@@ -87,7 +87,7 @@ Section 05: Memory Skill Building
 - 05.03 Long-term Memory
 ```
 
-Create:
+Erstellen:
 
 ```bash
 mkdir -p exercises/05-memory-skill-building/05.01-introduction-to-memory/explainer
@@ -95,7 +95,7 @@ mkdir -p exercises/05-memory-skill-building/05.02-short-term-memory/{explainer,p
 mkdir -p exercises/05-memory-skill-building/05.03-long-term-memory/explainer
 ```
 
-Then create readme stubs:
+Dann Readme-Stubs anlegen:
 
 ```
 exercises/05-memory-skill-building/05.01-introduction-to-memory/explainer/readme.md -> "# Introduction to Memory"

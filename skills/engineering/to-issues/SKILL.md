@@ -1,83 +1,83 @@
 ---
 name: to-issues
-description: Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices. Use when user wants to convert a plan into issues, create implementation tickets, or break down work into issues.
+description: Zerleg einen Plan, eine Spec oder ein PRD in unabhängig greifbare Issues im Projekt-Issue-Tracker per Tracer-Bullet Vertical Slices. Nutze, wenn der User einen Plan in Issues umwandeln, Implementation-Tickets erstellen oder Arbeit in Issues runterbrechen will.
 ---
 
 # To Issues
 
-Break a plan into independently-grabbable issues using vertical slices (tracer bullets).
+Einen Plan in unabhängig greifbare Issues per Vertical Slices (Tracer Bullets) zerlegen.
 
-The issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.
+Der Issue Tracker und das Triage-Label-Vokabular sollten dir mitgegeben worden sein — falls nicht, `/setup-matt-pocock-skills` ausführen.
 
-## Process
+## Prozess
 
-### 1. Gather context
+### 1. Kontext sammeln
 
-Work from whatever is already in the conversation context. If the user passes an issue reference (issue number, URL, or path) as an argument, fetch it from the issue tracker and read its full body and comments.
+Arbeite mit dem, was schon im Konversationskontext steht. Wenn der User eine Issue-Referenz (Issue-Nummer, URL oder Pfad) als Argument übergibt, hol es vom Issue Tracker und lies den vollen Body und die Comments.
 
-### 2. Explore the codebase (optional)
+### 2. Codebase erkunden (optional)
 
-If you have not already explored the codebase, do so to understand the current state of the code. Issue titles and descriptions should use the project's domain glossary vocabulary, and respect ADRs in the area you're touching.
+Wenn du die Codebase noch nicht erkundet hast, tu das, um den aktuellen Stand des Codes zu verstehen. Issue-Titel und -Beschreibungen sollten das Domain-Glossar-Vokabular des Projekts nutzen und ADRs im betroffenen Bereich respektieren.
 
-### 3. Draft vertical slices
+### 3. Vertical Slices entwerfen
 
-Break the plan into **tracer bullet** issues. Each issue is a thin vertical slice that cuts through ALL integration layers end-to-end, NOT a horizontal slice of one layer.
+Den Plan in **Tracer-Bullet**-Issues zerlegen. Jedes Issue ist ein dünner Vertical Slice, der end-to-end durch ALLE Integrationsschichten schneidet, NICHT ein Horizontal Slice einer Schicht.
 
-Slices may be 'HITL' or 'AFK'. HITL slices require human interaction, such as an architectural decision or a design review. AFK slices can be implemented and merged without human interaction. Prefer AFK over HITL where possible.
+Slices können 'HITL' oder 'AFK' sein. HITL Slices brauchen menschliche Interaktion, z.B. eine architektonische Entscheidung oder ein Design-Review. AFK Slices können ohne menschliche Interaktion implementiert und gemerged werden. Bevorzug AFK gegenüber HITL, wo möglich.
 
 <vertical-slice-rules>
-- Each slice delivers a narrow but COMPLETE path through every layer (schema, API, UI, tests)
-- A completed slice is demoable or verifiable on its own
-- Prefer many thin slices over few thick ones
+- Jeder Slice liefert einen schmalen, aber VOLLSTÄNDIGEN Pfad durch jede Schicht (Schema, API, UI, Tests)
+- Ein fertiger Slice ist eigenständig demobar oder verifizierbar
+- Bevorzug viele dünne Slices gegenüber wenigen dicken
 </vertical-slice-rules>
 
-### 4. Quiz the user
+### 4. Den User abfragen
 
-Present the proposed breakdown as a numbered list. For each slice, show:
+Präsentier die vorgeschlagene Aufteilung als nummerierte Liste. Für jeden Slice zeig:
 
-- **Title**: short descriptive name
+- **Title**: kurzer beschreibender Name
 - **Type**: HITL / AFK
-- **Blocked by**: which other slices (if any) must complete first
-- **User stories covered**: which user stories this addresses (if the source material has them)
+- **Blocked by**: welche anderen Slices (falls überhaupt) zuerst fertig sein müssen
+- **User stories covered**: welche User Stories das adressiert (falls das Quellmaterial welche hat)
 
-Ask the user:
+Frag den User:
 
-- Does the granularity feel right? (too coarse / too fine)
-- Are the dependency relationships correct?
-- Should any slices be merged or split further?
-- Are the correct slices marked as HITL and AFK?
+- Fühlt sich die Granularität richtig an? (zu grob / zu fein)
+- Sind die Abhängigkeits-Beziehungen korrekt?
+- Sollten Slices gemerged oder weiter gesplittet werden?
+- Sind die richtigen Slices als HITL und AFK markiert?
 
-Iterate until the user approves the breakdown.
+Iterier, bis der User die Aufteilung absegnet.
 
-### 5. Publish the issues to the issue tracker
+### 5. Die Issues im Issue Tracker veröffentlichen
 
-For each approved slice, publish a new issue to the issue tracker. Use the issue body template below. These issues are considered ready for AFK agents, so publish them with the correct triage label unless instructed otherwise.
+Für jeden genehmigten Slice ein neues Issue im Issue Tracker veröffentlichen. Nutz das Issue-Body-Template unten. Diese Issues gelten als ready für AFK Agents, also publish sie mit dem korrekten Triage-Label, außer anders instruiert.
 
-Publish issues in dependency order (blockers first) so you can reference real issue identifiers in the "Blocked by" field.
+Publish Issues in Dependency-Reihenfolge (Blockers zuerst), damit du echte Issue-Identifier im "Blocked by" Feld referenzieren kannst.
 
 <issue-template>
 ## Parent
 
-A reference to the parent issue on the issue tracker (if the source was an existing issue, otherwise omit this section).
+Eine Referenz auf das Parent-Issue im Issue Tracker (falls die Quelle ein bestehendes Issue war, ansonsten diesen Abschnitt weglassen).
 
-## What to build
+## Was gebaut wird
 
-A concise description of this vertical slice. Describe the end-to-end behavior, not layer-by-layer implementation.
+Eine prägnante Beschreibung dieses Vertical Slice. Beschreib das End-to-End-Verhalten, keine Layer-by-Layer-Implementierung.
 
-Avoid specific file paths or code snippets — they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it here and note briefly that it came from a prototype. Trim to the decision-rich parts — not a working demo, just the important bits.
+Vermeid konkrete Dateipfade oder Code-Snippets, die veralten schnell. Ausnahme: Wenn ein Prototyp ein Snippet produziert hat, das eine Entscheidung präziser kodiert als Prosa es kann (State Machine, Reducer, Schema, Type-Shape), inlinet es hier und notiert kurz, dass es aus einem Prototyp stammt. Auf die entscheidungsrelevanten Teile zuschneiden, kein lauffähiges Demo, nur die wichtigen Bits.
 
-## Acceptance criteria
+## Akzeptanzkriterien
 
-- [ ] Criterion 1
-- [ ] Criterion 2
-- [ ] Criterion 3
+- [ ] Kriterium 1
+- [ ] Kriterium 2
+- [ ] Kriterium 3
 
 ## Blocked by
 
-- A reference to the blocking ticket (if any)
+- Eine Referenz auf das blockierende Ticket (falls vorhanden)
 
-Or "None - can start immediately" if no blockers.
+Oder "Keine - kann sofort starten", wenn keine Blocker da sind.
 
 </issue-template>
 
-Do NOT close or modify any parent issue.
+Schließ oder modifizier KEIN Parent-Issue.

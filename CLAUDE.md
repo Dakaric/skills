@@ -1,14 +1,14 @@
-Skills are organized into bucket folders under `skills/`:
+Skills sind in Bucket-Ordnern unter `skills/` organisiert:
 
-- `engineering/` — daily code work
-- `productivity/` — daily non-code workflow tools
-- `misc/` — kept around but rarely used
-- `personal/` — tied to my own setup, not promoted
-- `in-progress/` — drafts not yet ready to ship
-- `deprecated/` — no longer used
+- `engineering/` — tägliche Code-Arbeit
+- `productivity/` — tägliche Workflow-Tools ohne Code-Bezug
+- `misc/` — wird behalten, aber selten genutzt
+- `personal/` — an mein eigenes Setup gebunden, nicht beworben
+- `in-progress/` — Drafts, noch nicht release-fertig
+- `deprecated/` — nicht mehr in Verwendung
 
-Every skill in `engineering/`, `productivity/`, or `misc/` must have a reference in the top-level `README.md` and an entry in `.claude-plugin/plugin.json`. Skills in `personal/`, `in-progress/`, and `deprecated/` must not appear in either.
+Jeder Skill in `engineering/`, `productivity/` oder `misc/` braucht eine Referenz in der Top-Level `README.md` und einen Eintrag in `.claude-plugin/plugin.json`. Skills in `personal/`, `in-progress/` und `deprecated/` dürfen in beiden nicht auftauchen.
 
-Each skill entry in the top-level `README.md` must link the skill name to its `SKILL.md`.
+Jeder Skill-Eintrag in der Top-Level `README.md` muss den Skill-Namen auf seine `SKILL.md` verlinken.
 
-Each bucket folder has a `README.md` that lists every skill in the bucket with a one-line description, with the skill name linked to its `SKILL.md`.
+Jeder Bucket-Ordner hat eine `README.md`, die jeden Skill im Bucket mit einer einzeiligen Beschreibung listet, wobei der Skill-Name auf seine `SKILL.md` verlinkt ist.

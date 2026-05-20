@@ -1,23 +1,23 @@
-# Issue tracker: GitLab
+# Issue Tracker: GitLab
 
-Issues and PRDs for this repo live as GitLab issues. Use the [`glab`](https://gitlab.com/gitlab-org/cli) CLI for all operations.
+Issues und PRDs für dieses Repo leben als GitLab Issues. Nutz das [`glab`](https://gitlab.com/gitlab-org/cli) CLI für alle Operationen.
 
-## Conventions
+## Konventionen
 
-- **Create an issue**: `glab issue create --title "..." --description "..."`. Use a heredoc for multi-line descriptions. Pass `--description -` to open an editor.
-- **Read an issue**: `glab issue view <number> --comments`. Use `-F json` for machine-readable output.
-- **List issues**: `glab issue list -F json` with appropriate `--label` filters.
-- **Comment on an issue**: `glab issue note <number> --message "..."`. GitLab calls comments "notes".
-- **Apply / remove labels**: `glab issue update <number> --label "..."` / `--unlabel "..."`. Multiple labels can be comma-separated or by repeating the flag.
-- **Close**: `glab issue close <number>`. `glab issue close` does not accept a closing comment, so post the explanation first with `glab issue note <number> --message "..."`, then close.
-- **Merge requests**: GitLab calls PRs "merge requests". Use `glab mr create`, `glab mr view`, `glab mr note`, etc. — the same shape as `gh pr ...` with `mr` in place of `pr` and `note`/`--message` in place of `comment`/`--body`.
+- **Issue erstellen**: `glab issue create --title "..." --description "..."`. Heredoc für mehrzeilige Descriptions nutzen. `--description -` öffnet einen Editor.
+- **Issue lesen**: `glab issue view <number> --comments`. `-F json` für machine-readable Output.
+- **Issues listen**: `glab issue list -F json` mit passenden `--label` Filtern.
+- **Auf Issue kommentieren**: `glab issue note <number> --message "..."`. GitLab nennt Comments "Notes".
+- **Labels anwenden / entfernen**: `glab issue update <number> --label "..."` / `--unlabel "..."`. Mehrere Labels können kommagetrennt oder durch wiederholtes Flag übergeben werden.
+- **Schließen**: `glab issue close <number>`. `glab issue close` akzeptiert keinen Closing Comment, also poste zuerst die Erklärung mit `glab issue note <number> --message "..."`, dann schließen.
+- **Merge Requests**: GitLab nennt PRs "Merge Requests". Nutz `glab mr create`, `glab mr view`, `glab mr note` etc. - gleiche Form wie `gh pr ...` mit `mr` statt `pr` und `note`/`--message` statt `comment`/`--body`.
 
-Infer the repo from `git remote -v` — `glab` does this automatically when run inside a clone.
+Das Repo aus `git remote -v` ableiten - `glab` macht das automatisch, wenn es innerhalb eines Clones läuft.
 
-## When a skill says "publish to the issue tracker"
+## Wenn ein Skill sagt "im Issue Tracker veröffentlichen"
 
-Create a GitLab issue.
+Ein GitLab Issue erstellen.
 
-## When a skill says "fetch the relevant ticket"
+## Wenn ein Skill sagt "das relevante Ticket holen"
 
-Run `glab issue view <number> --comments`.
+`glab issue view <number> --comments` ausführen.

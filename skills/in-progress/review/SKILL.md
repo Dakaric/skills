@@ -1,78 +1,78 @@
 ---
 name: review
-description: Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/PRD asked for?). Runs both reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to "review since X".
+description: Reviewt die Änderungen seit einem fixen Punkt (Commit, Branch, Tag oder Merge-Base) entlang zweier Achsen - Standards (folgt der Code den dokumentierten Coding-Standards dieses Repos?) und Spec (matcht der Code das, was das ausgangsgebende Issue / PRD verlangt hat?). Lässt beide Reviews in parallelen Sub-Agents laufen und reportet sie nebeneinander. Nutze, wenn der User einen Branch, einen PR, Work-in-Progress-Änderungen reviewen will oder "review since X" fragt.
 ---
 
 # Review
 
-Two-axis review of the diff between `HEAD` and a fixed point the user supplies:
+Zwei-Achsen-Review des Diffs zwischen `HEAD` und einem fixen Punkt, den der User liefert:
 
-- **Standards** — does the code conform to this repo's documented coding standards?
-- **Spec** — does the code faithfully implement the originating issue / PRD / spec?
+- **Standards** - folgt der Code den dokumentierten Coding-Standards dieses Repos?
+- **Spec** - implementiert der Code treu das ausgangsgebende Issue / PRD / Spec?
 
-Both axes run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregates their findings.
+Beide Achsen laufen als **parallele Sub-Agents**, damit sie sich nicht gegenseitig den Kontext verseuchen, dann aggregiert dieser Skill ihre Findings.
 
-The issue tracker should have been provided to you — run `/setup-matt-pocock-skills` if `docs/agents/issue-tracker.md` is missing.
+Der Issue Tracker sollte dir mitgegeben worden sein - falls `docs/agents/issue-tracker.md` fehlt, `/setup-matt-pocock-skills` ausführen.
 
-## Process
+## Prozess
 
-### 1. Pin the fixed point
+### 1. Fixen Punkt pinnen
 
-Whatever the user said is the fixed point — a commit SHA, branch name, tag, `main`, `HEAD~5`, etc. Don't be opinionated; pass it through. If they didn't specify one, ask: "Review against what — a branch, a commit, or `main`?" Don't proceed until you have it.
+Was der User gesagt hat, ist der fixe Punkt - ein Commit-SHA, Branch-Name, Tag, `main`, `HEAD~5` etc. Sei nicht meinungsstark; reich's durch. Wenn er nichts spezifiziert hat, frag: "Wogegen reviewen — einen Branch, einen Commit oder `main`?" Geh nicht weiter, bis du ihn hast.
 
-Capture the diff command once: `git diff <fixed-point>...HEAD` (three-dot, so the comparison is against the merge-base). Also note the list of commits via `git log <fixed-point>..HEAD --oneline`.
+Cap den Diff-Command einmal: `git diff <fixed-point>...HEAD` (drei Punkte, damit der Vergleich gegen die Merge-Base läuft). Auch die Liste der Commits per `git log <fixed-point>..HEAD --oneline` notieren.
 
-### 2. Identify the spec source
+### 2. Spec-Quelle identifizieren
 
-Look for the originating spec, in this order:
+Such die ausgangsgebende Spec, in dieser Reihenfolge:
 
-1. Issue references in the commit messages (`#123`, `Closes #45`, GitLab `!67`, etc.) — fetch via the workflow in `docs/agents/issue-tracker.md`.
-2. A path the user passed as an argument.
-3. A PRD/spec file under `docs/`, `specs/`, or `.scratch/` matching the branch name or feature.
-4. If nothing is found, ask the user where the spec is. If they say there isn't one, the **Spec** sub-agent will skip and report "no spec available".
+1. Issue-Referenzen in den Commit-Messages (`#123`, `Closes #45`, GitLab `!67` etc.) - via Workflow in `docs/agents/issue-tracker.md` fetchen.
+2. Einen Pfad, den der User als Argument übergeben hat.
+3. Ein PRD- / Spec-File unter `docs/`, `specs/` oder `.scratch/`, das zum Branch-Namen oder Feature matcht.
+4. Wenn nichts gefunden, frag den User, wo die Spec ist. Wenn er sagt, es gibt keine, skippt der **Spec** Sub-Agent und reportet "no spec available".
 
-### 3. Identify the standards sources
+### 3. Standards-Quellen identifizieren
 
-Anything in the repo that documents how code should be written. Common locations:
+Alles im Repo, das dokumentiert, wie Code geschrieben werden soll. Übliche Orte:
 
 - `CLAUDE.md`, `AGENTS.md`
 - `CONTRIBUTING.md`
-- `CONTEXT.md`, `CONTEXT-MAP.md`, per-context `CONTEXT.md` files
-- `docs/adr/` (architectural decisions are standards)
-- `.editorconfig`, `eslint.config.*`, `biome.json`, `prettier.config.*`, `tsconfig.json` (machine-enforced standards — note them but don't re-check what tooling already checks)
-- Any `STYLE.md`, `STANDARDS.md`, `STYLEGUIDE.md`, or similar at the repo root or under `docs/`
+- `CONTEXT.md`, `CONTEXT-MAP.md`, per-Context `CONTEXT.md` Files
+- `docs/adr/` (architektonische Entscheidungen sind Standards)
+- `.editorconfig`, `eslint.config.*`, `biome.json`, `prettier.config.*`, `tsconfig.json` (maschinell durchgesetzte Standards - notieren, aber nicht doppeln, was Tooling schon checkt)
+- Jede `STYLE.md`, `STANDARDS.md`, `STYLEGUIDE.md` oder Ähnliches im Repo-Root oder unter `docs/`
 
-Collect the list of files. The **Standards** sub-agent will read them.
+Die Liste der Files sammeln. Der **Standards** Sub-Agent wird sie lesen.
 
-### 4. Spawn both sub-agents in parallel
+### 4. Beide Sub-Agents parallel spawnen
 
-Send a single message with two `Agent` tool calls. Use the `general-purpose` subagent for both.
+Eine einzelne Message mit zwei `Agent`-Tool-Calls senden. Nutz den `general-purpose` Subagent für beide.
 
-**Standards sub-agent prompt** — include:
+**Standards-Sub-Agent-Prompt** - enthält:
 
-- The full diff command and commit list.
-- The list of standards-source files you found in step 3.
-- The brief: "Read the standards docs. Then read the diff. Report — per file/hunk where relevant — every place the diff violates a documented standard. Cite the standard (file + the rule). Distinguish hard violations from judgement calls. Skip anything tooling enforces. Under 400 words."
+- Den vollen Diff-Command und die Commit-Liste.
+- Die Liste der Standards-Source-Files, die du in Step 3 gefunden hast.
+- Der Brief: "Lies die Standards-Docs. Dann lies das Diff. Reporte — wo relevant pro File/Hunk — jede Stelle, an der das Diff einen dokumentierten Standard verletzt. Zitier den Standard (File + die Regel). Unterscheid harte Verletzungen von Judgement Calls. Skip alles, was Tooling enforced. Unter 400 Wörtern."
 
-**Spec sub-agent prompt** — include:
+**Spec-Sub-Agent-Prompt** - enthält:
 
-- The diff command and commit list.
-- The path or fetched contents of the spec.
-- The brief: "Read the spec. Then read the diff. Report: (a) requirements the spec asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep); (c) requirements that look implemented but where the implementation looks wrong. Quote the spec line for each finding. Under 400 words."
+- Den Diff-Command und die Commit-Liste.
+- Den Pfad oder den geholten Inhalt der Spec.
+- Der Brief: "Lies die Spec. Dann lies das Diff. Reporte: (a) Anforderungen, die die Spec verlangt hat und die fehlen oder unvollständig sind; (b) Verhalten im Diff, das nicht verlangt war (Scope-Creep); (c) Anforderungen, die implementiert aussehen, wo die Implementation aber falsch wirkt. Zitier die Spec-Zeile für jedes Finding. Unter 400 Wörtern."
 
-If the spec is missing, skip the Spec sub-agent and note this in the final report.
+Wenn die Spec fehlt, skip den Spec-Sub-Agent und notier das im finalen Report.
 
-### 5. Aggregate
+### 5. Aggregieren
 
-Present the two reports under `## Standards` and `## Spec` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings — the two axes are deliberately separate so the user can see them independently.
+Die zwei Reports unter `## Standards` und `## Spec` Headings präsentieren, verbatim oder leicht aufgeräumt. Findings **nicht** mergen oder neu ranken - die zwei Achsen sind bewusst separat, damit der User sie unabhängig sieht.
 
-End with a one-line summary: total findings per axis, and the worst single issue (if any) flagged.
+Mit einer einzeiligen Summary enden: Gesamt-Findings pro Achse und das schlimmste einzelne Issue (falls eines geflaggt).
 
-## Why two axes
+## Warum zwei Achsen
 
-A change can pass one axis and fail the other:
+Eine Änderung kann eine Achse passen und an der anderen failen:
 
-- Code that follows every standard but implements the wrong thing → **Standards pass, Spec fail.**
-- Code that does exactly what the issue asked but breaks the project's conventions → **Spec pass, Standards fail.**
+- Code, der jedem Standard folgt, aber das Falsche implementiert → **Standards pass, Spec fail.**
+- Code, der genau das tut, was das Issue verlangt, aber die Konventionen des Projekts bricht → **Spec pass, Standards fail.**
 
-Reporting them separately stops one axis from masking the other.
+Sie separat zu reporten verhindert, dass eine Achse die andere maskiert.

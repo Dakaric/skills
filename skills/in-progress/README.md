@@ -1,8 +1,8 @@
 # In Progress
 
-Skills that are still being developed. They're not ready to ship — expect rough edges, breaking changes, and abandoned experiments. They're excluded from the plugin and the top-level README until they graduate to a stable bucket.
+Skills, die noch in Entwicklung sind. Sie sind nicht release-fertig - erwart Rauheit, Breaking Changes und aufgegebene Experimente. Sie sind aus dem Plugin und der Top-Level-README ausgeschlossen, bis sie in einen stabilen Bucket aufsteigen.
 
-- **[review](./review/SKILL.md)** — Review changes since a fixed point along two parallel axes: **Standards** (does the diff follow the repo's coding standards?) and **Spec** (does the diff faithfully implement the originating issue/PRD?).
-- **[writing-beats](./writing-beats/SKILL.md)** — Shape an article as a journey of beats, choose-your-own-adventure style. Pick a starting beat, write only that beat, then pivot to the next, until the article reaches a natural end.
-- **[writing-fragments](./writing-fragments/SKILL.md)** — Grilling session that mines you for fragments — heterogeneous nuggets of writing — and appends them to a single document as raw material for a future article.
-- **[writing-shape](./writing-shape/SKILL.md)** — Take a markdown file of raw material and shape it into an article paragraph by paragraph, arguing format choices at each step.
+- **[review](./review/SKILL.md)** — Änderungen seit einem fixen Punkt entlang zweier paralleler Achsen reviewen: **Standards** (folgt der Diff den Coding-Standards des Repos?) und **Spec** (implementiert der Diff treu das ausgangsgebende Issue / PRD?).
+- **[writing-beats](./writing-beats/SKILL.md)** — Einen Artikel als Journey aus Beats formen, Choose-your-own-Adventure-Style. Einen Start-Beat wählen, nur diesen Beat schreiben, dann zum nächsten pivotieren, bis der Artikel ein natürliches Ende erreicht.
+- **[writing-fragments](./writing-fragments/SKILL.md)** — Grilling-Session, die dich nach Fragments abklopft - heterogenen Schreibnuggets - und sie an ein einzelnes Dokument als Rohmaterial für einen zukünftigen Artikel anhängt.
+- **[writing-shape](./writing-shape/SKILL.md)** — Eine Markdown-Datei mit Rohmaterial nehmen und Absatz für Absatz in einen Artikel formen, mit Argumenten für jede Format-Entscheidung.

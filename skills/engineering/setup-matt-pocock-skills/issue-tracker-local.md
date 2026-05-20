@@ -1,19 +1,19 @@
-# Issue tracker: Local Markdown
+# Issue Tracker: Local Markdown
 
-Issues and PRDs for this repo live as markdown files in `.scratch/`.
+Issues und PRDs für dieses Repo leben als Markdown-Files in `.scratch/`.
 
-## Conventions
+## Konventionen
 
-- One feature per directory: `.scratch/<feature-slug>/`
-- The PRD is `.scratch/<feature-slug>/PRD.md`
-- Implementation issues are `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01`
-- Triage state is recorded as a `Status:` line near the top of each issue file (see `triage-labels.md` for the role strings)
-- Comments and conversation history append to the bottom of the file under a `## Comments` heading
+- Ein Feature pro Verzeichnis: `.scratch/<feature-slug>/`
+- Das PRD ist `.scratch/<feature-slug>/PRD.md`
+- Implementation-Issues sind `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, nummeriert ab `01`
+- Triage-State wird als `Status:` Zeile oben im jeweiligen Issue-File festgehalten (siehe `triage-labels.md` für die Rollen-Strings)
+- Comments und Konversations-Historie hängen unten im File unter einer `## Comments` Heading an
 
-## When a skill says "publish to the issue tracker"
+## Wenn ein Skill sagt "im Issue Tracker veröffentlichen"
 
-Create a new file under `.scratch/<feature-slug>/` (creating the directory if needed).
+Ein neues File unter `.scratch/<feature-slug>/` anlegen (Verzeichnis bei Bedarf erstellen).
 
-## When a skill says "fetch the relevant ticket"
+## Wenn ein Skill sagt "das relevante Ticket holen"
 
-Read the file at the referenced path. The user will normally pass the path or the issue number directly.
+Das File am referenzierten Pfad lesen. Der User übergibt normalerweise den Pfad oder die Issue-Nummer direkt.

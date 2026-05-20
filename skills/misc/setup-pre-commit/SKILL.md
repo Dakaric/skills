@@ -1,42 +1,42 @@
 ---
 name: setup-pre-commit
-description: Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo. Use when user wants to add pre-commit hooks, set up Husky, configure lint-staged, or add commit-time formatting/typechecking/testing.
+description: Husky Pre-Commit Hooks mit lint-staged (Prettier), Type Checking und Tests im aktuellen Repo aufsetzen. Nutze, wenn der User Pre-Commit Hooks hinzufügen, Husky aufsetzen, lint-staged konfigurieren oder Commit-Time Formatting / Typechecking / Testing hinzufügen will.
 ---
 
 # Setup Pre-Commit Hooks
 
-## What This Sets Up
+## Was hier aufgesetzt wird
 
-- **Husky** pre-commit hook
-- **lint-staged** running Prettier on all staged files
-- **Prettier** config (if missing)
-- **typecheck** and **test** scripts in the pre-commit hook
+- **Husky** Pre-Commit Hook
+- **lint-staged** läuft Prettier auf alle staged Files
+- **Prettier** Config (falls fehlt)
+- **typecheck** und **test** Scripts im Pre-Commit Hook
 
 ## Steps
 
-### 1. Detect package manager
+### 1. Package Manager erkennen
 
-Check for `package-lock.json` (npm), `pnpm-lock.yaml` (pnpm), `yarn.lock` (yarn), `bun.lockb` (bun). Use whichever is present. Default to npm if unclear.
+Prüf auf `package-lock.json` (npm), `pnpm-lock.yaml` (pnpm), `yarn.lock` (yarn), `bun.lockb` (bun). Nutz den vorhandenen. Default zu npm, wenn unklar.
 
-### 2. Install dependencies
+### 2. Dependencies installieren
 
-Install as devDependencies:
+Als devDependencies installieren:
 
 ```
 husky lint-staged prettier
 ```
 
-### 3. Initialize Husky
+### 3. Husky initialisieren
 
 ```bash
 npx husky init
 ```
 
-This creates `.husky/` dir and adds `prepare: "husky"` to package.json.
+Das erstellt das `.husky/` Dir und fügt `prepare: "husky"` zur package.json hinzu.
 
-### 4. Create `.husky/pre-commit`
+### 4. `.husky/pre-commit` anlegen
 
-Write this file (no shebang needed for Husky v9+):
+Dieses File schreiben (kein Shebang nötig bei Husky v9+):
 
 ```
 npx lint-staged
@@ -44,9 +44,9 @@ npm run typecheck
 npm run test
 ```
 
-**Adapt**: Replace `npm` with detected package manager. If repo has no `typecheck` or `test` script in package.json, omit those lines and tell the user.
+**Anpassen**: `npm` durch den erkannten Package Manager ersetzen. Wenn das Repo kein `typecheck` oder `test` Script in package.json hat, diese Zeilen weglassen und dem User sagen.
 
-### 5. Create `.lintstagedrc`
+### 5. `.lintstagedrc` anlegen
 
 ```json
 {
@@ -54,9 +54,9 @@ npm run test
 }
 ```
 
-### 6. Create `.prettierrc` (if missing)
+### 6. `.prettierrc` anlegen (falls fehlt)
 
-Only create if no Prettier config exists. Use these defaults:
+Nur anlegen, wenn keine Prettier-Config existiert. Diese Defaults nutzen:
 
 ```json
 {
@@ -70,22 +70,22 @@ Only create if no Prettier config exists. Use these defaults:
 }
 ```
 
-### 7. Verify
+### 7. Verifizieren
 
-- [ ] `.husky/pre-commit` exists and is executable
-- [ ] `.lintstagedrc` exists
-- [ ] `prepare` script in package.json is `"husky"`
-- [ ] `prettier` config exists
-- [ ] Run `npx lint-staged` to verify it works
+- [ ] `.husky/pre-commit` existiert und ist ausführbar
+- [ ] `.lintstagedrc` existiert
+- [ ] `prepare` Script in package.json ist `"husky"`
+- [ ] `prettier` Config existiert
+- [ ] `npx lint-staged` laufen lassen zum Verifizieren
 
-### 8. Commit
+### 8. Committen
 
-Stage all changed/created files and commit with message: `Add pre-commit hooks (husky + lint-staged + prettier)`
+Alle changed / created Files stagen und committen mit Message: `Add pre-commit hooks (husky + lint-staged + prettier)`
 
-This will run through the new pre-commit hooks — a good smoke test that everything works.
+Das läuft durch die neuen Pre-Commit Hooks - ein guter Smoke-Test, dass alles funktioniert.
 
 ## Notes
 
-- Husky v9+ doesn't need shebangs in hook files
-- `prettier --ignore-unknown` skips files Prettier can't parse (images, etc.)
-- The pre-commit runs lint-staged first (fast, staged-only), then full typecheck and tests
+- Husky v9+ braucht keine Shebangs in Hook-Files
+- `prettier --ignore-unknown` skipt Files, die Prettier nicht parsen kann (Bilder etc.)
+- Der Pre-Commit läuft erst lint-staged (schnell, nur staged), dann vollen Typecheck und Tests

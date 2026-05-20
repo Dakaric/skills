@@ -1,63 +1,63 @@
 # CONTEXT.md Format
 
-## Structure
+## Struktur
 
 ```md
-# {Context Name}
+# {Context-Name}
 
-{One or two sentence description of what this context is and why it exists.}
+{Ein- bis zweisätzige Beschreibung, was dieser Context ist und warum er existiert.}
 
 ## Language
 
 **Order**:
-{A one or two sentence description of the term}
+{Ein- bis zweisätzige Beschreibung des Begriffs}
 _Avoid_: Purchase, transaction
 
 **Invoice**:
-A request for payment sent to a customer after delivery.
+Eine Zahlungsanforderung, die nach Lieferung an einen Kunden geschickt wird.
 _Avoid_: Bill, payment request
 
 **Customer**:
-A person or organization that places orders.
+Eine Person oder Organisation, die Orders aufgibt.
 _Avoid_: Client, buyer, account
 ```
 
-## Rules
+## Regeln
 
-- **Be opinionated.** When multiple words exist for the same concept, pick the best one and list the others as aliases to avoid.
-- **Flag conflicts explicitly.** If a term is used ambiguously, call it out in "Flagged ambiguities" with a clear resolution.
-- **Keep definitions tight.** One or two sentences max. Define what it IS, not what it does.
-- **Show relationships.** Use bold term names and express cardinality where obvious.
-- **Only include terms specific to this project's context.** General programming concepts (timeouts, error types, utility patterns) don't belong even if the project uses them extensively. Before adding a term, ask: is this a concept unique to this context, or a general programming concept? Only the former belongs.
-- **Group terms under subheadings** when natural clusters emerge. If all terms belong to a single cohesive area, a flat list is fine.
-- **Write an example dialogue.** A conversation between a dev and a domain expert that demonstrates how the terms interact naturally and clarifies boundaries between related concepts.
+- **Sei meinungsstark.** Wenn es mehrere Wörter für dasselbe Konzept gibt, wähl das beste und liste die anderen als zu vermeidende Aliasse.
+- **Konflikte explizit flaggen.** Wenn ein Begriff mehrdeutig genutzt wird, ruf es unter "Flagged ambiguities" aus mit klarer Auflösung.
+- **Definitionen straff halten.** Maximal ein bis zwei Sätze. Definier, was es IST, nicht was es tut.
+- **Beziehungen zeigen.** Begriffsnamen fett, Kardinalität ausdrücken, wo offensichtlich.
+- **Nur Begriffe aufnehmen, die spezifisch für den Context des Projekts sind.** Allgemeine Programmierkonzepte (Timeouts, Error-Typen, Utility-Patterns) gehören nicht rein, auch wenn das Projekt sie ausgiebig nutzt. Bevor du einen Begriff hinzufügst, frag: ist das ein Konzept einzigartig für diesen Context, oder ein allgemeines Programmierkonzept? Nur Ersteres gehört rein.
+- **Begriffe unter Subheadings gruppieren**, wenn natürliche Cluster entstehen. Wenn alle Begriffe zu einem zusammenhängenden Bereich gehören, ist eine flache Liste okay.
+- **Beispiel-Dialog schreiben.** Eine Konversation zwischen einem Dev und einem Domain-Experten, die zeigt, wie die Begriffe natürlich interagieren und die Grenzen zwischen verwandten Konzepten klärt.
 
-## Single vs multi-context repos
+## Single- vs Multi-Context-Repos
 
-**Single context (most repos):** One `CONTEXT.md` at the repo root.
+**Single Context (die meisten Repos):** Eine `CONTEXT.md` im Repo-Root.
 
-**Multiple contexts:** A `CONTEXT-MAP.md` at the repo root lists the contexts, where they live, and how they relate to each other:
+**Mehrere Contexts:** Eine `CONTEXT-MAP.md` im Repo-Root listet die Contexts, wo sie liegen und wie sie zusammenhängen:
 
 ```md
 # Context Map
 
 ## Contexts
 
-- [Ordering](./src/ordering/CONTEXT.md) — receives and tracks customer orders
-- [Billing](./src/billing/CONTEXT.md) — generates invoices and processes payments
-- [Fulfillment](./src/fulfillment/CONTEXT.md) — manages warehouse picking and shipping
+- [Ordering](./src/ordering/CONTEXT.md) — nimmt Customer-Orders entgegen und trackt sie
+- [Billing](./src/billing/CONTEXT.md) — generiert Invoices und verarbeitet Payments
+- [Fulfillment](./src/fulfillment/CONTEXT.md) — managt Warehouse-Picking und Shipping
 
 ## Relationships
 
-- **Ordering → Fulfillment**: Ordering emits `OrderPlaced` events; Fulfillment consumes them to start picking
-- **Fulfillment → Billing**: Fulfillment emits `ShipmentDispatched` events; Billing consumes them to generate invoices
-- **Ordering ↔ Billing**: Shared types for `CustomerId` and `Money`
+- **Ordering → Fulfillment**: Ordering emittiert `OrderPlaced`-Events; Fulfillment konsumiert sie, um mit dem Picking zu starten
+- **Fulfillment → Billing**: Fulfillment emittiert `ShipmentDispatched`-Events; Billing konsumiert sie, um Invoices zu generieren
+- **Ordering ↔ Billing**: Shared Types für `CustomerId` und `Money`
 ```
 
-The skill infers which structure applies:
+Der Skill leitet ab, welche Struktur greift:
 
-- If `CONTEXT-MAP.md` exists, read it to find contexts
-- If only a root `CONTEXT.md` exists, single context
-- If neither exists, create a root `CONTEXT.md` lazily when the first term is resolved
+- Wenn `CONTEXT-MAP.md` existiert, sie lesen, um die Contexts zu finden
+- Wenn nur eine Root `CONTEXT.md` existiert, Single Context
+- Wenn keines existiert, lazy eine Root `CONTEXT.md` anlegen, sobald der erste Begriff aufgelöst wird
 
-When multiple contexts exist, infer which one the current topic relates to. If unclear, ask.
+Wenn mehrere Contexts existieren, ableiten, zu welchem das aktuelle Thema gehört. Wenn unklar, fragen.

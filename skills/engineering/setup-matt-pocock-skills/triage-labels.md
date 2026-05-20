@@ -1,15 +1,15 @@
 # Triage Labels
 
-The skills speak in terms of five canonical triage roles. This file maps those roles to the actual label strings used in this repo's issue tracker.
+Die Skills sprechen in Begriffen von fünf kanonischen Triage Roles. Dieses File mappt diese Rollen auf die tatsächlichen Label-Strings, die im Issue Tracker dieses Repos genutzt werden.
 
-| Label in mattpocock/skills | Label in our tracker | Meaning                                  |
-| -------------------------- | -------------------- | ---------------------------------------- |
-| `needs-triage`             | `needs-triage`       | Maintainer needs to evaluate this issue  |
-| `needs-info`               | `needs-info`         | Waiting on reporter for more information |
-| `ready-for-agent`          | `ready-for-agent`    | Fully specified, ready for an AFK agent  |
-| `ready-for-human`          | `ready-for-human`    | Requires human implementation            |
-| `wontfix`                  | `wontfix`            | Will not be actioned                     |
+| Label in mattpocock/skills | Label in unserem Tracker | Bedeutung                                  |
+| -------------------------- | ------------------------ | ------------------------------------------ |
+| `needs-triage`             | `needs-triage`           | Maintainer muss dieses Issue bewerten      |
+| `needs-info`               | `needs-info`             | Wartet auf weitere Infos vom Reporter      |
+| `ready-for-agent`          | `ready-for-agent`        | Vollständig spezifiziert, bereit für AFK-Agent |
+| `ready-for-human`          | `ready-for-human`        | Erfordert menschliche Implementierung      |
+| `wontfix`                  | `wontfix`                | Wird nicht umgesetzt                       |
 
-When a skill mentions a role (e.g. "apply the AFK-ready triage label"), use the corresponding label string from this table.
+Wenn ein Skill eine Rolle nennt (z.B. "wende das AFK-ready Triage-Label an"), nimm den entsprechenden Label-String aus dieser Tabelle.
 
-Edit the right-hand column to match whatever vocabulary you actually use.
+Editier die rechte Spalte, damit sie zu dem Vokabular passt, das du tatsächlich nutzt.

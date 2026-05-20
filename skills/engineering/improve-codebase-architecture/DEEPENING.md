@@ -1,37 +1,37 @@
 # Deepening
 
-How to deepen a cluster of shallow modules safely, given its dependencies. Assumes the vocabulary in [LANGUAGE.md](LANGUAGE.md) — **module**, **interface**, **seam**, **adapter**.
+Wie ein Cluster shallowe Module sicher deepened wird, gegeben seine Abhängigkeiten. Setzt das Vokabular in [LANGUAGE.md](LANGUAGE.md) voraus — **Module**, **Interface**, **Seam**, **Adapter**.
 
-## Dependency categories
+## Abhängigkeits-Kategorien
 
-When assessing a candidate for deepening, classify its dependencies. The category determines how the deepened module is tested across its seam.
+Wenn du einen Kandidaten fürs Deepening bewertest, klassifizier seine Abhängigkeiten. Die Kategorie bestimmt, wie das deepened Modul über seinen Seam getestet wird.
 
 ### 1. In-process
 
-Pure computation, in-memory state, no I/O. Always deepenable — merge the modules and test through the new interface directly. No adapter needed.
+Pure Berechnung, In-Memory State, kein I/O. Immer deepenbar - die Module mergen und durchs neue Interface direkt testen. Kein Adapter nötig.
 
 ### 2. Local-substitutable
 
-Dependencies that have local test stand-ins (PGLite for Postgres, in-memory filesystem). Deepenable if the stand-in exists. The deepened module is tested with the stand-in running in the test suite. The seam is internal; no port at the module's external interface.
+Abhängigkeiten, die lokale Test-Stand-ins haben (PGLite für Postgres, In-Memory-Filesystem). Deepenbar, wenn das Stand-in existiert. Das deepened Modul wird mit dem Stand-in getestet, das in der Test-Suite läuft. Der Seam ist intern; kein Port am externen Interface des Moduls.
 
 ### 3. Remote but owned (Ports & Adapters)
 
-Your own services across a network boundary (microservices, internal APIs). Define a **port** (interface) at the seam. The deep module owns the logic; the transport is injected as an **adapter**. Tests use an in-memory adapter. Production uses an HTTP/gRPC/queue adapter.
+Eigene Services über eine Netzwerk-Boundary (Microservices, interne APIs). Definier einen **Port** (Interface) am Seam. Das tiefe Modul besitzt die Logik; der Transport wird als **Adapter** injiziert. Tests nutzen einen In-Memory-Adapter. Production nutzt einen HTTP- / gRPC- / Queue-Adapter.
 
-Recommendation shape: *"Define a port at the seam, implement an HTTP adapter for production and an in-memory adapter for testing, so the logic sits in one deep module even though it's deployed across a network."*
+Form der Empfehlung: *"Definier einen Port am Seam, implementier einen HTTP-Adapter für Production und einen In-Memory-Adapter fürs Testing, sodass die Logik in einem tiefen Modul sitzt, auch wenn sie übers Netzwerk deployed ist."*
 
 ### 4. True external (Mock)
 
-Third-party services (Stripe, Twilio, etc.) you don't control. The deepened module takes the external dependency as an injected port; tests provide a mock adapter.
+Third-Party-Services (Stripe, Twilio etc.), die du nicht kontrollierst. Das deepened Modul nimmt die externe Abhängigkeit als injizierten Port; Tests liefern einen Mock-Adapter.
 
-## Seam discipline
+## Seam-Disziplin
 
-- **One adapter means a hypothetical seam. Two adapters means a real one.** Don't introduce a port unless at least two adapters are justified (typically production + test). A single-adapter seam is just indirection.
-- **Internal seams vs external seams.** A deep module can have internal seams (private to its implementation, used by its own tests) as well as the external seam at its interface. Don't expose internal seams through the interface just because tests use them.
+- **Ein Adapter heißt hypothetischer Seam. Zwei Adapter heißen echter.** Führ keinen Port ein, wenn nicht mindestens zwei Adapter gerechtfertigt sind (typisch Production + Test). Ein Single-Adapter-Seam ist nur Indirection.
+- **Interne Seams vs externe Seams.** Ein tiefes Modul kann interne Seams haben (privat zur Implementation, von eigenen Tests genutzt) sowie den externen Seam an seinem Interface. Expose interne Seams nicht durchs Interface nur weil Tests sie nutzen.
 
-## Testing strategy: replace, don't layer
+## Test-Strategie: replace, don't layer
 
-- Old unit tests on shallow modules become waste once tests at the deepened module's interface exist — delete them.
-- Write new tests at the deepened module's interface. The **interface is the test surface**.
-- Tests assert on observable outcomes through the interface, not internal state.
-- Tests should survive internal refactors — they describe behaviour, not implementation. If a test has to change when the implementation changes, it's testing past the interface.
+- Alte Unit-Tests auf shallowen Modulen werden Waste, sobald Tests am Interface des deepened Moduls existieren - löschen.
+- Neue Tests am Interface des deepened Moduls schreiben. Das **Interface ist die Test-Surface**.
+- Tests asserten auf beobachtbare Outcomes durchs Interface, nicht auf internen State.
+- Tests sollten interne Refactors überleben - sie beschreiben Verhalten, nicht Implementation. Wenn ein Test sich ändern muss, wenn die Implementation sich ändert, testet er an der Interface vorbei.

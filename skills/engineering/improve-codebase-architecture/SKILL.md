@@ -1,71 +1,71 @@
 ---
 name: improve-codebase-architecture
-description: Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the decisions in docs/adr/. Use when the user wants to improve architecture, find refactoring opportunities, consolidate tightly-coupled modules, or make a codebase more testable and AI-navigable.
+description: Findet Deepening-Möglichkeiten in einer Codebase, gestützt auf die Domain-Sprache in CONTEXT.md und die Entscheidungen in docs/adr/. Nutze, wenn der User die Architektur verbessern, Refactor-Möglichkeiten finden, eng gekoppelte Module konsolidieren oder eine Codebase testbarer und KI-navigierbarer machen will.
 ---
 
 # Improve Codebase Architecture
 
-Surface architectural friction and propose **deepening opportunities** — refactors that turn shallow modules into deep ones. The aim is testability and AI-navigability.
+Architektur-Reibung sichtbar machen und **Deepening-Möglichkeiten** vorschlagen - Refactors, die flache Module in tiefe verwandeln. Ziel ist Testbarkeit und KI-Navigierbarkeit.
 
-## Glossary
+## Glossar
 
-Use these terms exactly in every suggestion. Consistent language is the point — don't drift into "component," "service," "API," or "boundary." Full definitions in [LANGUAGE.md](LANGUAGE.md).
+Diese Begriffe in jedem Vorschlag exakt verwenden. Konsistente Sprache ist der ganze Punkt - drift nicht in "Component", "Service", "API" oder "Boundary" ab. Vollständige Definitionen in [LANGUAGE.md](LANGUAGE.md).
 
-- **Module** — anything with an interface and an implementation (function, class, package, slice).
-- **Interface** — everything a caller must know to use the module: types, invariants, error modes, ordering, config. Not just the type signature.
-- **Implementation** — the code inside.
-- **Depth** — leverage at the interface: a lot of behaviour behind a small interface. **Deep** = high leverage. **Shallow** = interface nearly as complex as the implementation.
-- **Seam** — where an interface lives; a place behaviour can be altered without editing in place. (Use this, not "boundary.")
-- **Adapter** — a concrete thing satisfying an interface at a seam.
-- **Leverage** — what callers get from depth.
-- **Locality** — what maintainers get from depth: change, bugs, knowledge concentrated in one place.
+- **Module** — alles mit einem Interface und einer Implementation (Function, Class, Package, Slice).
+- **Interface** — alles, was ein Caller wissen muss, um das Modul zu nutzen: Typen, Invarianten, Error-Modes, Ordering, Config. Nicht nur die Typ-Signatur.
+- **Implementation** — der Code innendrin.
+- **Depth** — Leverage am Interface: viel Verhalten hinter einem kleinen Interface. **Deep** = hohe Leverage. **Shallow** = Interface fast so komplex wie die Implementation.
+- **Seam** — wo ein Interface lebt; eine Stelle, an der Verhalten geändert werden kann, ohne in-place zu editieren. (Diesen Begriff nutzen, nicht "Boundary".)
+- **Adapter** — etwas Konkretes, das ein Interface an einem Seam erfüllt.
+- **Leverage** — was Caller von Depth bekommen.
+- **Locality** — was Maintainer von Depth bekommen: Change, Bugs, Wissen konzentriert an einer Stelle.
 
-Key principles (see [LANGUAGE.md](LANGUAGE.md) for the full list):
+Schlüsselprinzipien (siehe [LANGUAGE.md](LANGUAGE.md) für die volle Liste):
 
-- **Deletion test**: imagine deleting the module. If complexity vanishes, it was a pass-through. If complexity reappears across N callers, it was earning its keep.
-- **The interface is the test surface.**
-- **One adapter = hypothetical seam. Two adapters = real seam.**
+- **Deletion-Test**: stell dir vor, du löschst das Modul. Wenn Komplexität verschwindet, war es ein Pass-Through. Wenn Komplexität bei N Callern wieder auftaucht, hat es seinen Job gemacht.
+- **Das Interface ist die Test-Surface.**
+- **Ein Adapter = hypothetischer Seam. Zwei Adapter = echter Seam.**
 
-This skill is _informed_ by the project's domain model. The domain language gives names to good seams; ADRs record decisions the skill should not re-litigate.
+Dieser Skill ist _gestützt_ auf das Domain-Modell des Projekts. Die Domain-Sprache benennt gute Seams; ADRs halten Entscheidungen fest, die der Skill nicht neu aufrollen soll.
 
-## Process
+## Prozess
 
 ### 1. Explore
 
-Read the project's domain glossary and any ADRs in the area you're touching first.
+Erst das Domain-Glossar des Projekts und alle ADRs im betroffenen Bereich lesen.
 
-Then use the Agent tool with `subagent_type=Explore` to walk the codebase. Don't follow rigid heuristics — explore organically and note where you experience friction:
+Dann das Agent-Tool mit `subagent_type=Explore` nutzen, um durch die Codebase zu gehen. Folge keinen starren Heuristiken - explorier organisch und notier, wo du Reibung erlebst:
 
-- Where does understanding one concept require bouncing between many small modules?
-- Where are modules **shallow** — interface nearly as complex as the implementation?
-- Where have pure functions been extracted just for testability, but the real bugs hide in how they're called (no **locality**)?
-- Where do tightly-coupled modules leak across their seams?
-- Which parts of the codebase are untested, or hard to test through their current interface?
+- Wo erfordert das Verstehen eines Konzepts, zwischen vielen kleinen Modulen hin und her zu springen?
+- Wo sind Module **shallow** - Interface fast so komplex wie die Implementation?
+- Wo wurden pure Functions nur für Testbarkeit extrahiert, aber die echten Bugs verstecken sich darin, wie sie aufgerufen werden (keine **Locality**)?
+- Wo lecken eng gekoppelte Module über ihre Seams?
+- Welche Teile der Codebase sind ungetestet oder schwer durch ihr aktuelles Interface zu testen?
 
-Apply the **deletion test** to anything you suspect is shallow: would deleting it concentrate complexity, or just move it? A "yes, concentrates" is the signal you want.
+Wende den **Deletion-Test** auf alles an, was du als Shallow vermutest: würde das Löschen Komplexität konzentrieren oder nur verschieben? Ein "ja, konzentriert" ist das Signal, das du suchst.
 
-### 2. Present candidates
+### 2. Kandidaten präsentieren
 
-Present a numbered list of deepening opportunities. For each candidate:
+Eine nummerierte Liste von Deepening-Möglichkeiten präsentieren. Für jeden Kandidaten:
 
-- **Files** — which files/modules are involved
-- **Problem** — why the current architecture is causing friction
-- **Solution** — plain English description of what would change
-- **Benefits** — explained in terms of locality and leverage, and also in how tests would improve
+- **Files** — welche Files / Module beteiligt sind
+- **Problem** — warum die aktuelle Architektur Reibung erzeugt
+- **Solution** — Plain-English-Beschreibung dessen, was sich ändern würde
+- **Benefits** — erklärt anhand von Locality und Leverage, und wie Tests sich verbessern würden
 
-**Use CONTEXT.md vocabulary for the domain, and [LANGUAGE.md](LANGUAGE.md) vocabulary for the architecture.** If `CONTEXT.md` defines "Order," talk about "the Order intake module" — not "the FooBarHandler," and not "the Order service."
+**Nutze das CONTEXT.md-Vokabular für die Domain und das [LANGUAGE.md](LANGUAGE.md)-Vokabular für die Architektur.** Wenn `CONTEXT.md` "Order" definiert, sprich vom "Order intake module" - nicht vom "FooBarHandler" und nicht vom "Order service".
 
-**ADR conflicts**: if a candidate contradicts an existing ADR, only surface it when the friction is real enough to warrant revisiting the ADR. Mark it clearly (e.g. _"contradicts ADR-0007 — but worth reopening because…"_). Don't list every theoretical refactor an ADR forbids.
+**ADR-Konflikte**: wenn ein Kandidat einem bestehenden ADR widerspricht, bring ihn nur, wenn die Reibung echt genug ist, um das ADR neu aufzurollen. Markier es klar (z.B. _"widerspricht ADR-0007 — aber wert wieder aufzumachen, weil…"_). List nicht jeden theoretischen Refactor, den ein ADR verbietet.
 
-Do NOT propose interfaces yet. Ask the user: "Which of these would you like to explore?"
+Schlage noch KEINE Interfaces vor. Frag den User: "Welche davon willst du erkunden?"
 
-### 3. Grilling loop
+### 3. Grilling-Loop
 
-Once the user picks a candidate, drop into a grilling conversation. Walk the design tree with them — constraints, dependencies, the shape of the deepened module, what sits behind the seam, what tests survive.
+Sobald der User einen Kandidaten wählt, drop in eine Grilling-Konversation. Geh den Design-Tree mit ihm durch - Constraints, Abhängigkeiten, die Form des deepened Modules, was hinter dem Seam sitzt, welche Tests überleben.
 
-Side effects happen inline as decisions crystallize:
+Side Effects passieren inline, sobald Entscheidungen sich verfestigen:
 
-- **Naming a deepened module after a concept not in `CONTEXT.md`?** Add the term to `CONTEXT.md` — same discipline as `/grill-with-docs` (see [CONTEXT-FORMAT.md](../grill-with-docs/CONTEXT-FORMAT.md)). Create the file lazily if it doesn't exist.
-- **Sharpening a fuzzy term during the conversation?** Update `CONTEXT.md` right there.
-- **User rejects the candidate with a load-bearing reason?** Offer an ADR, framed as: _"Want me to record this as an ADR so future architecture reviews don't re-suggest it?"_ Only offer when the reason would actually be needed by a future explorer to avoid re-suggesting the same thing — skip ephemeral reasons ("not worth it right now") and self-evident ones. See [ADR-FORMAT.md](../grill-with-docs/ADR-FORMAT.md).
-- **Want to explore alternative interfaces for the deepened module?** See [INTERFACE-DESIGN.md](INTERFACE-DESIGN.md).
+- **Ein deepened Module nach einem Konzept benennen, das nicht in `CONTEXT.md` steht?** Den Begriff in `CONTEXT.md` aufnehmen - gleiche Disziplin wie `/grill-with-docs` (siehe [CONTEXT-FORMAT.md](../grill-with-docs/CONTEXT-FORMAT.md)). File lazy anlegen, wenn es nicht existiert.
+- **Einen unscharfen Begriff während der Konversation schärfen?** `CONTEXT.md` sofort dort updaten.
+- **User lehnt den Kandidaten mit einem load-bearing Grund ab?** Bietet ein ADR an, formuliert als: _"Soll ich das als ADR festhalten, damit künftige Architecture-Reviews es nicht erneut vorschlagen?"_ Nur anbieten, wenn der Grund von einem zukünftigen Explorer tatsächlich gebraucht würde, um nicht das Gleiche wieder vorzuschlagen - skip ephemere Gründe ("aktuell nicht wert") und selbstevidente. Siehe [ADR-FORMAT.md](../grill-with-docs/ADR-FORMAT.md).
+- **Alternative Interfaces für das deepened Module erkunden wollen?** Siehe [INTERFACE-DESIGN.md](INTERFACE-DESIGN.md).

@@ -1,18 +1,18 @@
 # Domain Docs
 
-How the engineering skills should consume this repo's domain documentation when exploring the codebase.
+Wie die Engineering-Skills die Domain-Dokumentation dieses Repos beim Codebase-Explore konsumieren sollen.
 
-## Before exploring, read these
+## Vor dem Explore lesen
 
-- **`CONTEXT.md`** at the repo root, or
-- **`CONTEXT-MAP.md`** at the repo root if it exists — it points at one `CONTEXT.md` per context. Read each one relevant to the topic.
-- **`docs/adr/`** — read ADRs that touch the area you're about to work in. In multi-context repos, also check `src/<context>/docs/adr/` for context-scoped decisions.
+- **`CONTEXT.md`** im Repo-Root, oder
+- **`CONTEXT-MAP.md`** im Repo-Root, falls existent - sie zeigt auf eine `CONTEXT.md` pro Context. Jede, die zum Thema gehört, lesen.
+- **`docs/adr/`** - ADRs lesen, die den Bereich treffen, in dem du gleich arbeitest. In Multi-Context-Repos auch `src/<context>/docs/adr/` für context-scoped Entscheidungen prüfen.
 
-If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them upfront. The producer skill (`/grill-with-docs`) creates them lazily when terms or decisions actually get resolved.
+Wenn eines dieser Files nicht existiert, **stillschweigend weitergehen**. Flagge ihre Abwesenheit nicht; schlag nicht vorab vor, sie anzulegen. Der Producer-Skill (`/grill-with-docs`) erstellt sie lazy, wenn Begriffe oder Entscheidungen tatsächlich aufgelöst werden.
 
-## File structure
+## File-Struktur
 
-Single-context repo (most repos):
+Single-Context-Repo (die meisten Repos):
 
 ```
 /
@@ -23,29 +23,29 @@ Single-context repo (most repos):
 └── src/
 ```
 
-Multi-context repo (presence of `CONTEXT-MAP.md` at the root):
+Multi-Context-Repo (Existenz von `CONTEXT-MAP.md` im Root):
 
 ```
 /
 ├── CONTEXT-MAP.md
-├── docs/adr/                          ← system-wide decisions
+├── docs/adr/                          ← systemweite Entscheidungen
 └── src/
     ├── ordering/
     │   ├── CONTEXT.md
-    │   └── docs/adr/                  ← context-specific decisions
+    │   └── docs/adr/                  ← context-spezifische Entscheidungen
     └── billing/
         ├── CONTEXT.md
         └── docs/adr/
 ```
 
-## Use the glossary's vocabulary
+## Das Glossar-Vokabular nutzen
 
-When your output names a domain concept (in an issue title, a refactor proposal, a hypothesis, a test name), use the term as defined in `CONTEXT.md`. Don't drift to synonyms the glossary explicitly avoids.
+Wenn dein Output ein Domain-Konzept benennt (in einem Issue-Title, einem Refactor-Vorschlag, einer Hypothese, einem Test-Namen), nutz den Begriff, wie er in `CONTEXT.md` definiert ist. Drift nicht zu Synonymen, die das Glossar explizit vermeidet.
 
-If the concept you need isn't in the glossary yet, that's a signal — either you're inventing language the project doesn't use (reconsider) or there's a real gap (note it for `/grill-with-docs`).
+Wenn das Konzept, das du brauchst, noch nicht im Glossar ist, ist das ein Signal - entweder erfindest du Sprache, die das Projekt nicht nutzt (überdenken), oder es gibt eine echte Lücke (notier für `/grill-with-docs`).
 
-## Flag ADR conflicts
+## ADR-Konflikte flaggen
 
-If your output contradicts an existing ADR, surface it explicitly rather than silently overriding:
+Wenn dein Output einem bestehenden ADR widerspricht, leg's explizit offen, statt es still zu überschreiben:
 
-> _Contradicts ADR-0007 (event-sourced orders) — but worth reopening because…_
+> _Widerspricht ADR-0007 (event-sourced orders) — aber wert wieder aufzumachen, weil…_

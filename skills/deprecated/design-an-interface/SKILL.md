@@ -1,94 +1,94 @@
 ---
 name: design-an-interface
-description: Generate multiple radically different interface designs for a module using parallel sub-agents. Use when user wants to design an API, explore interface options, compare module shapes, or mentions "design it twice".
+description: Generier mehrere radikal unterschiedliche Interface-Designs für ein Modul per parallelen Sub-Agents. Nutze, wenn der User eine API designen, Interface-Optionen erkunden, Modul-Formen vergleichen oder "design it twice" erwähnt.
 ---
 
 # Design an Interface
 
-Based on "Design It Twice" from "A Philosophy of Software Design": your first idea is unlikely to be the best. Generate multiple radically different designs, then compare.
+Basiert auf "Design It Twice" aus "A Philosophy of Software Design": deine erste Idee ist selten die beste. Generier mehrere radikal unterschiedliche Designs und vergleich sie dann.
 
 ## Workflow
 
-### 1. Gather Requirements
+### 1. Requirements sammeln
 
-Before designing, understand:
+Vor dem Designen verstehen:
 
-- [ ] What problem does this module solve?
-- [ ] Who are the callers? (other modules, external users, tests)
-- [ ] What are the key operations?
-- [ ] Any constraints? (performance, compatibility, existing patterns)
-- [ ] What should be hidden inside vs exposed?
+- [ ] Welches Problem löst dieses Modul?
+- [ ] Wer sind die Caller? (andere Module, externe User, Tests)
+- [ ] Was sind die zentralen Operationen?
+- [ ] Constraints? (Performance, Kompatibilität, bestehende Patterns)
+- [ ] Was sollte innen versteckt vs außen exposed sein?
 
-Ask: "What does this module need to do? Who will use it?"
+Frag: "Was muss dieses Modul tun? Wer wird es nutzen?"
 
-### 2. Generate Designs (Parallel Sub-Agents)
+### 2. Designs generieren (Parallel Sub-Agents)
 
-Spawn 3+ sub-agents simultaneously using Task tool. Each must produce a **radically different** approach.
+Spawn 3+ Sub-Agents gleichzeitig mit dem Task-Tool. Jeder muss einen **radikal unterschiedlichen** Ansatz produzieren.
 
 ```
-Prompt template for each sub-agent:
+Prompt-Template für jeden Sub-Agent:
 
-Design an interface for: [module description]
+Designe ein Interface für: [Modul-Beschreibung]
 
-Requirements: [gathered requirements]
+Requirements: [gesammelte Requirements]
 
-Constraints for this design: [assign a different constraint to each agent]
-- Agent 1: "Minimize method count - aim for 1-3 methods max"
-- Agent 2: "Maximize flexibility - support many use cases"
-- Agent 3: "Optimize for the most common case"
-- Agent 4: "Take inspiration from [specific paradigm/library]"
+Constraints für dieses Design: [jedem Agent ein anderes Constraint zuweisen]
+- Agent 1: "Minimier die Method-Anzahl - ziel auf max. 1-3 Methoden"
+- Agent 2: "Maximier Flexibilität - unterstütz viele Use Cases"
+- Agent 3: "Optimier für den häufigsten Fall"
+- Agent 4: "Lass dich von [spezifischem Paradigma/Library] inspirieren"
 
-Output format:
-1. Interface signature (types/methods)
-2. Usage example (how caller uses it)
-3. What this design hides internally
-4. Trade-offs of this approach
+Output-Format:
+1. Interface-Signature (Typen/Methoden)
+2. Usage-Beispiel (wie Caller es nutzen)
+3. Was dieses Design intern versteckt
+4. Trade-offs dieses Ansatzes
 ```
 
-### 3. Present Designs
+### 3. Designs präsentieren
 
-Show each design with:
+Jedes Design zeigen mit:
 
-1. **Interface signature** - types, methods, params
-2. **Usage examples** - how callers actually use it in practice
-3. **What it hides** - complexity kept internal
+1. **Interface Signature** - Typen, Methoden, Parameter
+2. **Usage Examples** - wie Caller es in der Praxis nutzen
+3. **What it hides** - intern gehaltene Komplexität
 
-Present designs sequentially so user can absorb each approach before comparison.
+Designs sequenziell präsentieren, damit der User jeden Ansatz aufnehmen kann, bevor verglichen wird.
 
-### 4. Compare Designs
+### 4. Designs vergleichen
 
-After showing all designs, compare them on:
+Nachdem alle Designs gezeigt sind, vergleich sie nach:
 
-- **Interface simplicity**: fewer methods, simpler params
-- **General-purpose vs specialized**: flexibility vs focus
-- **Implementation efficiency**: does shape allow efficient internals?
-- **Depth**: small interface hiding significant complexity (good) vs large interface with thin implementation (bad)
-- **Ease of correct use** vs **ease of misuse**
+- **Interface-Einfachheit**: weniger Methoden, einfachere Parameter
+- **General-Purpose vs spezialisiert**: Flexibilität vs Fokus
+- **Implementation-Effizienz**: erlaubt die Form effiziente Internals?
+- **Depth**: kleines Interface, das signifikante Komplexität versteckt (gut) vs großes Interface mit dünner Implementation (schlecht)
+- **Einfachheit der korrekten Nutzung** vs **Einfachheit der Fehlnutzung**
 
-Discuss trade-offs in prose, not tables. Highlight where designs diverge most.
+Trade-offs in Prosa diskutieren, nicht in Tabellen. Heb hervor, wo Designs am stärksten divergieren.
 
-### 5. Synthesize
+### 5. Synthetisieren
 
-Often the best design combines insights from multiple options. Ask:
+Oft kombiniert das beste Design Insights aus mehreren Optionen. Frag:
 
-- "Which design best fits your primary use case?"
-- "Any elements from other designs worth incorporating?"
+- "Welches Design passt am besten zu deinem Primary Use Case?"
+- "Gibt es Elemente aus anderen Designs, die's wert sind, übernommen zu werden?"
 
-## Evaluation Criteria
+## Evaluierungskriterien
 
-From "A Philosophy of Software Design":
+Aus "A Philosophy of Software Design":
 
-**Interface simplicity**: Fewer methods, simpler params = easier to learn and use correctly.
+**Interface-Einfachheit**: weniger Methoden, einfachere Parameter = leichter zu lernen und korrekt zu nutzen.
 
-**General-purpose**: Can handle future use cases without changes. But beware over-generalization.
+**General-Purpose**: kann zukünftige Use Cases ohne Änderungen handlen. Aber Vorsicht vor Over-Generalization.
 
-**Implementation efficiency**: Does interface shape allow efficient implementation? Or force awkward internals?
+**Implementation-Effizienz**: erlaubt die Interface-Form effiziente Implementation? Oder zwingt sie zu awkward Internals?
 
-**Depth**: Small interface hiding significant complexity = deep module (good). Large interface with thin implementation = shallow module (avoid).
+**Depth**: kleines Interface, das signifikante Komplexität versteckt = Deep Module (gut). Großes Interface mit dünner Implementation = Shallow Module (vermeiden).
 
 ## Anti-Patterns
 
-- Don't let sub-agents produce similar designs - enforce radical difference
-- Don't skip comparison - the value is in contrast
-- Don't implement - this is purely about interface shape
-- Don't evaluate based on implementation effort
+- Lass Sub-Agents keine ähnlichen Designs produzieren - erzwing radikale Differenz
+- Skip den Vergleich nicht - der Wert ist im Kontrast
+- Implementier nicht - hier geht's rein um Interface-Form
+- Evaluier nicht nach Implementations-Aufwand

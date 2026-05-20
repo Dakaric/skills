@@ -1,130 +1,130 @@
 ---
 name: qa
-description: Interactive QA session where user reports bugs or issues conversationally, and the agent files GitHub issues. Explores the codebase in the background for context and domain language. Use when user wants to report bugs, do QA, file issues conversationally, or mentions "QA session".
+description: Interaktive QA-Session, in der der User Bugs oder Issues konversational meldet und der Agent GitHub Issues anlegt. Erkundet die Codebase im Hintergrund für Kontext und Domain-Sprache. Nutze, wenn der User Bugs melden, QA machen, Issues konversational ablegen will oder "QA session" erwähnt.
 ---
 
 # QA Session
 
-Run an interactive QA session. The user describes problems they're encountering. You clarify, explore the codebase for context, and file GitHub issues that are durable, user-focused, and use the project's domain language.
+Führ eine interaktive QA-Session. Der User beschreibt Probleme, die er erlebt. Du klärst, erkundest die Codebase für Kontext und legst GitHub Issues an, die durable, user-fokussiert sind und die Domain-Sprache des Projekts nutzen.
 
-## For each issue the user raises
+## Für jedes Issue, das der User raised
 
-### 1. Listen and lightly clarify
+### 1. Zuhören und leicht klären
 
-Let the user describe the problem in their own words. Ask **at most 2-3 short clarifying questions** focused on:
+Lass den User das Problem in eigenen Worten beschreiben. Stell **maximal 2-3 kurze klärende Fragen** fokussiert auf:
 
-- What they expected vs what actually happened
-- Steps to reproduce (if not obvious)
-- Whether it's consistent or intermittent
+- Was er erwartet hat vs was tatsächlich passierte
+- Schritte zur Reproduktion (falls nicht offensichtlich)
+- Ob es konsistent oder intermittent ist
 
-Do NOT over-interview. If the description is clear enough to file, move on.
+KEIN Over-Interview. Wenn die Beschreibung klar genug ist zum Ablegen, weiter.
 
-### 2. Explore the codebase in the background
+### 2. Codebase im Hintergrund erkunden
 
-While talking to the user, kick off an Agent (subagent_type=Explore) in the background to understand the relevant area. The goal is NOT to find a fix — it's to:
+Während du mit dem User redest, kickst du einen Agent (subagent_type=Explore) im Hintergrund, um den relevanten Bereich zu verstehen. Das Ziel ist NICHT, einen Fix zu finden - sondern:
 
-- Learn the domain language used in that area (check UBIQUITOUS_LANGUAGE.md)
-- Understand what the feature is supposed to do
-- Identify the user-facing behavior boundary
+- Die Domain-Sprache in dem Bereich zu lernen (UBIQUITOUS_LANGUAGE.md prüfen)
+- Zu verstehen, was das Feature tun soll
+- Die User-gerichtete Verhaltens-Boundary identifizieren
 
-This context helps you write a better issue — but the issue itself should NOT reference specific files, line numbers, or internal implementation details.
+Dieser Kontext hilft dir, ein besseres Issue zu schreiben - aber das Issue selbst sollte KEINE spezifischen Files, Zeilennummern oder interne Implementation-Details referenzieren.
 
-### 3. Assess scope: single issue or breakdown?
+### 3. Scope abschätzen: Single Issue oder Breakdown?
 
-Before filing, decide whether this is a **single issue** or needs to be **broken down** into multiple issues.
+Vor dem Ablegen entscheiden, ob das ein **Single Issue** ist oder in mehrere Issues **aufgeteilt** werden muss.
 
-Break down when:
+Aufteilen, wenn:
 
-- The fix spans multiple independent areas (e.g. "the form validation is wrong AND the success message is missing AND the redirect is broken")
-- There are clearly separable concerns that different people could work on in parallel
-- The user describes something that has multiple distinct failure modes or symptoms
+- Der Fix mehrere unabhängige Bereiche umspannt (z.B. "die Form-Validierung ist falsch UND die Success-Message fehlt UND der Redirect ist kaputt")
+- Klar trennbare Concerns existieren, an denen verschiedene Leute parallel arbeiten könnten
+- Der User etwas mit mehreren distincten Failure Modes oder Symptomen beschreibt
 
-Keep as a single issue when:
+Als Single Issue halten, wenn:
 
-- It's one behavior that's wrong in one place
-- The symptoms are all caused by the same root behavior
+- Es ein Verhalten ist, das an einer Stelle falsch ist
+- Die Symptome alle vom gleichen Root Behavior verursacht werden
 
-### 4. File the GitHub issue(s)
+### 4. Die GitHub Issues ablegen
 
-Create issues with `gh issue create`. Do NOT ask the user to review first — just file and share URLs.
+Issues mit `gh issue create` erstellen. Frag den User NICHT vorher zum Reviewen - leg ab und teil die URLs.
 
-Issues must be **durable** — they should still make sense after major refactors. Write from the user's perspective.
+Issues müssen **durable** sein - sie sollten nach großen Refactors noch Sinn machen. Aus der User-Perspektive schreiben.
 
-#### For a single issue
+#### Für ein Single Issue
 
-Use this template:
-
-```
-## What happened
-
-[Describe the actual behavior the user experienced, in plain language]
-
-## What I expected
-
-[Describe the expected behavior]
-
-## Steps to reproduce
-
-1. [Concrete, numbered steps a developer can follow]
-2. [Use domain terms from the codebase, not internal module names]
-3. [Include relevant inputs, flags, or configuration]
-
-## Additional context
-
-[Any extra observations from the user or from codebase exploration that help frame the issue — e.g. "this only happens when using the Docker layer, not the filesystem layer" — use domain language but don't cite files]
-```
-
-#### For a breakdown (multiple issues)
-
-Create issues in dependency order (blockers first) so you can reference real issue numbers.
-
-Use this template for each sub-issue:
+Dieses Template nutzen:
 
 ```
-## Parent issue
+## Was passiert ist
 
-#<parent-issue-number> (if you created a tracking issue) or "Reported during QA session"
+[Beschreib das tatsächliche Verhalten, das der User erlebt hat, in einfacher Sprache]
 
-## What's wrong
+## Was ich erwartet habe
 
-[Describe this specific behavior problem — just this slice, not the whole report]
+[Beschreib das erwartete Verhalten]
 
-## What I expected
+## Schritte zur Reproduktion
 
-[Expected behavior for this specific slice]
+1. [Konkrete, nummerierte Schritte, denen ein Entwickler folgen kann]
+2. [Domain-Begriffe aus der Codebase nutzen, keine internen Modul-Namen]
+3. [Relevante Inputs, Flags oder Configuration aufnehmen]
 
-## Steps to reproduce
+## Zusätzlicher Kontext
 
-1. [Steps specific to THIS issue]
+[Weitere Beobachtungen vom User oder aus der Codebase-Exploration, die helfen, das Issue einzuordnen — z.B. "das passiert nur, wenn der Docker-Layer genutzt wird, nicht der Filesystem-Layer" — Domain-Sprache nutzen, aber keine Files zitieren]
+```
+
+#### Für einen Breakdown (mehrere Issues)
+
+Issues in Dependency-Reihenfolge anlegen (Blockers zuerst), damit du echte Issue-Nummern referenzieren kannst.
+
+Dieses Template für jedes Sub-Issue nutzen:
+
+```
+## Parent Issue
+
+#<parent-issue-number> (falls du ein Tracking-Issue erstellt hast) oder "Während der QA-Session gemeldet"
+
+## Was kaputt ist
+
+[Beschreib dieses spezifische Verhaltensproblem — nur diesen Slice, nicht den ganzen Report]
+
+## Was ich erwartet habe
+
+[Erwartetes Verhalten für diesen spezifischen Slice]
+
+## Schritte zur Reproduktion
+
+1. [Schritte spezifisch für DIESES Issue]
 
 ## Blocked by
 
-- #<issue-number> (if this issue can't be fixed until another is resolved)
+- #<issue-number> (falls dieses Issue nicht gefixt werden kann, bis ein anderes gelöst ist)
 
-Or "None — can start immediately" if no blockers.
+Oder "Keine — kann sofort starten", wenn keine Blocker.
 
-## Additional context
+## Zusätzlicher Kontext
 
-[Any extra observations relevant to this slice]
+[Weitere Beobachtungen relevant für diesen Slice]
 ```
 
-When creating a breakdown:
+Beim Erstellen eines Breakdowns:
 
-- **Prefer many thin issues over few thick ones** — each should be independently fixable and verifiable
-- **Mark blocking relationships honestly** — if issue B genuinely can't be tested until issue A is fixed, say so. If they're independent, mark both as "None — can start immediately"
-- **Create issues in dependency order** so you can reference real issue numbers in "Blocked by"
-- **Maximize parallelism** — the goal is that multiple people (or agents) can grab different issues simultaneously
+- **Bevorzug viele dünne Issues gegenüber wenigen dicken** - jedes sollte unabhängig fixbar und verifizierbar sein
+- **Blocking-Beziehungen ehrlich markieren** - wenn Issue B genuin nicht testbar ist, bis A gefixt ist, sag das. Wenn unabhängig, markier beide als "Keine — kann sofort starten"
+- **Issues in Dependency-Reihenfolge erstellen**, damit du echte Issue-Nummern in "Blocked by" referenzieren kannst
+- **Parallelisierung maximieren** - das Ziel ist, dass mehrere Leute (oder Agents) verschiedene Issues simultan grabben können
 
-#### Rules for all issue bodies
+#### Regeln für alle Issue Bodies
 
-- **No file paths or line numbers** — these go stale
-- **Use the project's domain language** (check UBIQUITOUS_LANGUAGE.md if it exists)
-- **Describe behaviors, not code** — "the sync service fails to apply the patch" not "applyPatch() throws on line 42"
-- **Reproduction steps are mandatory** — if you can't determine them, ask the user
-- **Keep it concise** — a developer should be able to read the issue in 30 seconds
+- **Keine File-Pfade oder Zeilennummern** - die werden stale
+- **Die Domain-Sprache des Projekts nutzen** (UBIQUITOUS_LANGUAGE.md prüfen, falls existent)
+- **Behaviors beschreiben, nicht Code** - "der Sync-Service schafft es nicht, den Patch anzuwenden", nicht "applyPatch() throws on line 42"
+- **Reproduktions-Schritte sind Pflicht** - wenn du sie nicht bestimmen kannst, frag den User
+- **Knapp halten** - ein Dev sollte das Issue in 30 Sekunden lesen können
 
-After filing, print all issue URLs (with blocking relationships summarized) and ask: "Next issue, or are we done?"
+Nach dem Ablegen alle Issue-URLs printen (mit zusammengefassten Blocking-Beziehungen) und fragen: "Nächstes Issue, oder sind wir fertig?"
 
-### 5. Continue the session
+### 5. Session fortsetzen
 
-Keep going until the user says they're done. Each issue is independent — don't batch them.
+Weitermachen, bis der User sagt, dass er fertig ist. Jedes Issue ist unabhängig - batch sie nicht.
