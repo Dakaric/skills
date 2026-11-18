@@ -30,6 +30,7 @@ Drei Aufrufe:
    - fehlende Fakten aus Dailies in die Zielnotiz unter `## Notizen` eintragen, mit `(Quelle: [[JJJJ-MM-TT]])`
    - in Dailies den Projektnamen zum Wikilink machen, wo eindeutig
    - tote Links reparieren, wenn genau ein Ziel passt
+   - einen Stand als überholt kennzeichnen, wenn ein späterer Eintrag (Daily, Nachtrag, gemessener Befund) den neuen Stand belegt: alten Text stehen lassen, dahinter `*(Stand TT.MM.JJJJ, überholt durch … [[Beleg]])*`, nichts löschen
 4. **Nie selbst:** löschen, verschieben, archivieren, `status` ändern, einen Widerspruch auflösen, vorhandenen Inhalt überschreiben. Daraus wird eine Frage (Schritt 5).
 5. **Fragen anhängen** an `03 Bereiche/Vault-Pflege/Offene Fragen.md` im Format unten. Vorher prüfen, ob dieselbe Frage schon offen ist. Höchstens 10 neue pro Lauf, die mit dem größten Kontextgewinn zuerst.
 6. **Bericht** nach `03 Bereiche/Vault-Pflege/Audits/JJJJ-MM-TT.md` (Vorlage unten) und als Zeile in die Liste in `Vault-Pflege.md` eintragen, damit er im Graph hängt.
