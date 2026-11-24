@@ -1,17 +1,44 @@
 ---
 name: grill-with-docs
-description: Grilling-Session, die deinen Plan gegen das bestehende Domain-Modell prüft, Terminologie schärft und Dokumentation (CONTEXT.md, ADRs) inline aktualisiert, sobald Entscheidungen sich verfestigen. Nutze, wenn der User einen Plan gegen die Sprache und dokumentierten Entscheidungen seines Projekts stressen will.
+description: Grilling-Session in Fragerunden, die deinen Plan gegen das bestehende Domain-Modell prüft, Terminologie schärft und Dokumentation (CONTEXT.md, ADRs) inline aktualisiert, sobald Entscheidungen sich verfestigen, wenn du einen Plan gegen Sprache und dokumentierte Entscheidungen deines Projekts stressen willst.
 ---
 
 <what-to-do>
 
 Interviewe mich unerbittlich zu jedem Aspekt dieses Plans, bis wir ein geteiltes Verständnis erreichen. Geh jeden Zweig des Design-Trees durch und löse Abhängigkeiten zwischen Entscheidungen Stück für Stück auf. Gib zu jeder Frage deine empfohlene Antwort an.
 
-Stell die Fragen eine nach der anderen und warte auf Feedback, bevor du weitergehst.
-
 Wenn eine Frage durch Exploration der Codebase beantwortet werden kann, erkunde stattdessen die Codebase.
 
 </what-to-do>
+
+<runden>
+
+## Fragen in Runden stellen
+
+Gefragt wird in Runden, nicht einzeln. Eine Runde enthält alle Fragen, die gerade unabhängig voneinander entscheidbar sind. Eine Frage, deren Form von einer offenen Antwort abhängt, wartet auf die nächste Runde. So wenige Runden, wie die Abhängigkeiten erlauben.
+
+**Ablauf je Runde:**
+
+1. Lies die Codebase weiter, bis nur noch Fragen übrig sind, die der User entscheiden muss.
+2. Lade den Skill `aufgaben`, er regelt Anlegen, Warten und Antworten. Lege einen Punkt an: Stufe `jetzt`, `blockiert` nennt den Plan, der wartet, `antwort_an` ist „Grill-Session <Plan>“ (nur damit zeigt das Cockpit den Knopf „Erledigt und senden“). `projekt` ist der Projektname aus einem offenen Punkt desselben Repos, sonst der Repo-Name.
+   - `titel`: „Grill <Plan>: Runde <n>, <k> Fragen“ (bei k = 1 „1 Frage“)
+   - `kontext`: die Fragen nummeriert (F1, F2, …), je Frage zwei, drei Sätze Lage und die Optionen
+   - `antwort`: je Frage eine Zeile `F<n>: <Empfehlung>`, höchstens 1200 Zeichen, damit im Notizfeld Platz für Änderungen bleibt
+   - `empfehlung`: ein Satz, dass die Zeilen geändert oder stehen gelassen und mit „Erledigt und senden“ abgeschickt werden
+3. Starte den Warte-Befehl im Hintergrund und werte das Ereignis so aus:
+   - `erledigt`: Lies `erledigt_notiz` zeilenweise nach `F<n>:`. Eine unveränderte Zeile ist angenommen, eine geänderte gilt mit dem neuen Wortlaut. Eine fehlende oder unklare Zeile wird nicht geraten, sie kommt in die nächste Runde. Zeilen ohne `F<n>:` sind Kommentare und fließen in die Entscheidungen ein. Ist die Notiz leer, frag im Terminal nach, statt dieselbe Runde neu zu stellen.
+   - `antwort` (der User schreibt, ohne abzuhaken): Lies die Texte nach `F<n>:`-Zeilen, die gelten wie in `erledigt`, und beantworte Rückfragen. Der Punkt bleibt offen, du startest den Warte-Befehl mit `--nach-antwort` neu. Ändere den Punkt nicht per `PATCH`, ein offenes Notizfeld übernimmt das nicht.
+4. Ziehe `CONTEXT.md` und ADRs nach, bevor du die nächste Runde baust.
+
+Grenzen des Cockpits: `titel` 200 Zeichen, `kontext` 8000, `antwort` und `empfehlung` je 2000. Passt eine Runde nicht hinein, teile sie in zwei Punkte, kürze nicht. Die F-Nummern laufen über beide Punkte weiter, die Titel enden auf „Teil 1“ und „Teil 2“.
+
+Zum Schluss fasst du die Entscheidungen im Terminal zusammen.
+
+**Orca-Worker** (Präambel mit Task- und Dispatch-ID) legen keinen Punkt selbst an. Sie schicken `titel`, `kontext`, `antwort` und `empfehlung` im Format oben per `orca orchestration ask` an den Koordinator und bitten darum, `erledigt_notiz` wörtlich zurückzugeben. Einen Rückfall ins Terminal gibt es für sie nicht.
+
+**Rückfall Terminal:** Scheitert das Anlegen an der Verbindung (curl scheitert, 5xx) oder will der User ausdrücklich im Terminal gegrillt werden, stellst du die Fragen eine nach der anderen und wartest jeweils auf Feedback. Bei 422 korrigierst du das genannte Feld, bei 409 gilt `aufgaben`.
+
+</runden>
 
 <supporting-info>
 
