@@ -3,7 +3,7 @@
 Skills, die ich täglich für Code-Arbeit nutze.
 
 - **[diagnose](./diagnose/SKILL.md)** — Disziplinierter Diagnose-Loop für harte Bugs und Performance-Regressionen: reproduzieren → minimieren → hypothetisieren → instrumentieren → fixen → Regression-Test.
-- **[grill-with-docs](./grill-with-docs/SKILL.md)** — Grilling-Session, die deinen Plan gegen das bestehende Domain-Modell prüft, Terminologie schärft und `CONTEXT.md` plus ADRs inline aktualisiert.
+- **[grill-with-docs](./grill-with-docs/SKILL.md)** — Grilling-Session in Fragerunden, die deinen Plan gegen das bestehende Domain-Modell prüft, Terminologie schärft und `CONTEXT.md` plus ADRs inline aktualisiert.
 - **[triage](./triage/SKILL.md)** — Issues durch eine State Machine aus Triage Roles triagen.
 - **[improve-codebase-architecture](./improve-codebase-architecture/SKILL.md)** — Deepening-Möglichkeiten in einer Codebase finden, gestützt auf die Domain-Sprache in `CONTEXT.md` und die Entscheidungen in `docs/adr/`.
 - **[setup-matt-pocock-skills](./setup-matt-pocock-skills/SKILL.md)** — Per-Repo-Konfiguration aufsetzen (Issue Tracker, Triage-Label-Vokabular, Domain-Doc-Layout), die die anderen Engineering-Skills konsumieren.

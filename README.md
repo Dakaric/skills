@@ -147,7 +147,7 @@ Software-Engineering-Fundamentals sind wichtiger denn je. Diese Skills sind mein
 Skills, die ich täglich für Code-Arbeit nutze.
 
 - **[diagnose](./skills/engineering/diagnose/SKILL.md)** — Disziplinierter Diagnose-Loop für harte Bugs und Performance-Regressionen: reproduzieren → minimieren → hypothetisieren → instrumentieren → fixen → Regression-Test.
-- **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)** — Grilling-Session, die deinen Plan gegen das bestehende Domain-Modell prüft, Terminologie schärft und `CONTEXT.md` plus ADRs inline aktualisiert.
+- **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)** — Grilling-Session in Fragerunden, die deinen Plan gegen das bestehende Domain-Modell prüft, Terminologie schärft und `CONTEXT.md` plus ADRs inline aktualisiert.
 - **[triage](./skills/engineering/triage/SKILL.md)** — Issues durch eine State Machine aus Triage Roles triagen.
 - **[improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md)** — Deepening-Möglichkeiten in einer Codebase finden, gestützt auf die Domain-Sprache in `CONTEXT.md` und die Entscheidungen in `docs/adr/`.
 - **[setup-matt-pocock-skills](./skills/engineering/setup-matt-pocock-skills/SKILL.md)** — Per-Repo-Konfiguration aufsetzen (Issue Tracker, Triage-Label-Vokabular, Domain-Doc-Layout), die die anderen Engineering-Skills konsumieren. Einmal pro Repo ausführen, bevor du `to-issues`, `to-prd`, `triage`, `diagnose`, `tdd`, `improve-codebase-architecture` oder `zoom-out` nutzt.
